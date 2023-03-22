@@ -1,0 +1,12 @@
+with x as (
+	select eml.id, d.district_name, c.country_name,
+	eml.is_furnished, eml.price , eml.sqm_netsqm, eml.price/ eml.sqm_netsqm as sqm_price
+	FROM public.f_emlak eml
+	join d_countries c on c.country_id =eml.country_id
+	join d_districts d on d.district_id =eml.district_id
+	where  eml.price/ eml.sqm_netsqm between 40 and 500
+	order by 7 desc
+)
+select x.is_furnished, country_name, cast(avg(sqm_price) as int) sqm_price,count(1) cnt from x
+group by x.is_furnished,country_name
+order by 1,2
