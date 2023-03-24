@@ -1,0 +1,1 @@
+run docker-compose up to launch DB on target server

@@ -62,7 +62,7 @@ CREATE TABLE F_Emlak
     UNIQUE(source_emlak_id)
 )
 
--- drop PROCEDURE pr_merge_emlak_data
+-- for Postgres version>=15
 CREATE or REPLACE PROCEDURE pr_merge_emlak_data (
 	load_id integer,
 	source_emlak_id integer,

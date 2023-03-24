@@ -27,10 +27,8 @@ class save_to_db():
     def store_db(self, item):
         values = tuple([self.load_id] + [item[key] for key in self.lst_flds])
         # values = (11, 39741352, 11, 8500)
-        try:
-            sql = f"CALL pr_merge_emlak_data({', '.join(['%s'] * (1 + len(self.lst_flds)))})"
-            self.curr.execute(sql, values)
-        except BaseException as e:
-            print(e)
-            self.connection.rollback() # commit()
+        #try:
+        sql = f"CALL pr_merge_emlak_data({', '.join(['%s'] * (1 + len(self.lst_flds)))})"
+        self.curr.execute(sql, values)
+        # except BaseException as e:
         self.connection.commit()
