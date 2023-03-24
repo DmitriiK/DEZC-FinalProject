@@ -1,0 +1,47 @@
+###
+### A complete description of a Prefect Deployment for flow 'Main Load'
+###
+name: Emlak Srappy
+description: null
+version: abd04cc3c0ea1ef8bc9d865456fdcd12
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+tags: []
+parameters: {"SCRAPING_DEPTH":2, "REQUEST_DELAY":1}
+schedule: null
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  block_type_slug: process
+  _block_type_slug: process
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: Main Load
+manifest_path: null
+storage: null
+path: /home/dklmn/code/DEZC-FinalProject/emlak_scraping
+entrypoint: main.py:main_task
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    SCRAPING_DEPTH:
+      title: SCRAPING_DEPTH
+      default: 999
+      position: 0
+      type: integer
+    REQUEST_DELAY:
+      title: REQUEST_DELAY
+      default: 1
+      position: 1
+      type: integer
+  required: null
+  definitions: null

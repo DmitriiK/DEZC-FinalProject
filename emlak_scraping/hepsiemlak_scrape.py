@@ -9,7 +9,13 @@ import creds
 # baseURL = 'https://www.hepsiemlak.com/api/realty-list/'
 
 class scrapping_session:
-    def __init__(self):
+    """
+    SCRAPING_DEPTH      to restict scrapping depth
+    REQUEST_DELAY  seconds delay bentween requests
+    """
+    def __init__(self, SCRAPING_DEPTH = 999, REQUEST_DELAY:int = 1):
+        self.SCRAPING_DEPTH = SCRAPING_DEPTH
+        self.REQUEST_DELAY = REQUEST_DELAY
         geoURLparts = [
             'izmir-kiralik?',  # Izmir
             'antalya-kiralik?counties=kepez,konyaalti,muratpasa&',  # Antalya
@@ -40,7 +46,7 @@ class scrapping_session:
             self.resp_content_size =+ len(r.content)
             json_resp = r.json()
             totalPages, page = json_resp['totalPages'], json_resp['page'] 
-            if page < totalPages and page<=settings.SCRAPING_DEPTH:
+            if page < totalPages and page<=self.SCRAPING_DEPTH:
                 next_page_url = url.replace(f'&page={page}', f'&page={page+1}') # yes, I don't like it as well
         return r.status_code, json_resp, next_page_url
 
@@ -80,7 +86,7 @@ class scrapping_session:
                     else:
                         return # todo: this will probably breake client.. need to do something more elegant                     
 
-                time.sleep(settings.REQUEST_DELAY)
+                time.sleep(self.REQUEST_DELAY)
                 url = next_url
 
 if __name__ == '__main__':
