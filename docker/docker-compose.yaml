@@ -9,6 +9,7 @@ services:
       - "~/docker_data_postgres:/var/lib/postgresql/data:rw"
     ports:
       - "5432:5432"
+    restart: unless-stopped
   pgadmin:
     image: dpage/pgadmin4
     environment:
@@ -16,4 +17,12 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=root
     ports:
       - "8080:80"
-    
+  metabase:
+    image: metabase/metabase:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - data:/metabase
+    restart: unless-stopped
+volumes:
+  data:
