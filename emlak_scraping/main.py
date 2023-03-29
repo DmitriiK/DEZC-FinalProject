@@ -11,7 +11,8 @@ def load_to_db(SCRAPING_DEPTH:int, REQUEST_DELAY:int ):
    for itm in scrappy.scrape():
       db.store_db(itm)
    print(f'{scrappy.items_parsed=}, {scrappy.pages_requested=}, {scrappy.resp_content_size=}')
-   return db
+
+
 
 
 @flow(name="Main Load", log_prints=True)

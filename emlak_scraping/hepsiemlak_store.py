@@ -40,3 +40,23 @@ class db_worker():
         self.curr.execute(sql, values)
         # except BaseException as e:
         self.connection.commit()
+
+    def get_geo_data(self):
+        ret = []
+        try:
+            connection = self.connection
+            read_emlak_geo_sql = "SELECT  eml.id, eml.maplocation_lon, eml.maplocation_lat  " \
+                             "FROM public.f_emlak eml " \
+                             "WHERE load_id IN (select max(load_id) from public.f_emlak)"
+            cursor = connection.cursor()
+            cursor.execute(read_emlak_geo_sql)
+            output = cursor.fetchone()
+            while output is not None:
+                # print(output)
+                row = cursor.fetchone()
+                id,  lon, lat = (int(row[0]), float(row[2]), float(row[2]))
+                ret.append((id, lat, lon))
+
+        except (Exception, psycopg2.Error) as error:
+            print("Error while fetching data from PostgreSQL", error)
+        return ret
