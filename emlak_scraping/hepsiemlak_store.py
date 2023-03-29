@@ -5,19 +5,27 @@ from settings import SQL_DB, SQL_HOST
 from creds import SQL_PASSWORD, SQL_USER
 
 
-class save_to_db():
+class db_worker():
 
     def __init__(self):
         self.create_connection()
+        self.lst_flds = [JsonSchema.flat_name(x) for x in JsonSchema.hepsiemlak_source_fields] + ['is_furnished']  # ((
+    
+    def __del__(self):
+        if self.connection:
+            self.curr.close()
+            self.connection.close()
+
+    def init_load_session(self):  
         self.curr.execute('INSERT INTO F_LOADS(dt_start) VALUES (now()) RETURNING load_id')
         data = self.curr.fetchone()
-        self.load_id = data[0]
-        self.lst_flds = [JsonSchema.flat_name(x) for x in JsonSchema.hepsiemlak_source_fields] + ['is_furnished']  # ((
+        self.load_id = data[0]    
+
 
     def create_connection(self):
         self.connection = psycopg2.connect(
             host=SQL_HOST,
-            database=SQL_DB,
+            database=SQL_DB, 
             user=SQL_USER,
             password=SQL_PASSWORD)
 
