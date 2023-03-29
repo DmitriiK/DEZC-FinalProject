@@ -47,16 +47,17 @@ class db_worker():
             connection = self.connection
             read_emlak_geo_sql = "SELECT  eml.id, eml.maplocation_lon, eml.maplocation_lat  " \
                              "FROM public.f_emlak eml " \
-                             "WHERE load_id IN (select max(load_id) from public.f_emlak)"
+                             "WHERE load_id IN (select max(load_id) from public.f_emlak) " 
             cursor = connection.cursor()
             cursor.execute(read_emlak_geo_sql)
-            output = cursor.fetchone()
-            while output is not None:
+            row = cursor.fetchone()
+            while row is not None:
                 # print(output)
+                id,  lon, lat = (int(row[0]), float(row[1]), float(row[2]))
+                ret.append((id, lon, lat))
                 row = cursor.fetchone()
-                id,  lon, lat = (int(row[0]), float(row[2]), float(row[2]))
-                ret.append((id, lat, lon))
 
         except (Exception, psycopg2.Error) as error:
-            print("Error while fetching data from PostgreSQL", error)
+            print("Error while fetching geo data from PostgreSQL", error)
+            raise
         return ret
