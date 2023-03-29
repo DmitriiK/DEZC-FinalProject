@@ -1,5 +1,8 @@
 
 import psycopg2
+# import pandas as pd
+from sqlalchemy import create_engine
+
 from metadata import JsonSchema
 from settings import SQL_DB, SQL_HOST
 from creds import SQL_PASSWORD, SQL_USER
@@ -47,7 +50,7 @@ class db_worker():
             connection = self.connection
             read_emlak_geo_sql = "SELECT  eml.id, eml.maplocation_lon, eml.maplocation_lat  " \
                              "FROM public.f_emlak eml " \
-                             "WHERE load_id IN (select max(load_id) from public.f_emlak) " 
+                             "WHERE id NOT IN (select ID from public.f_emlak_calc) " 
             cursor = connection.cursor()
             cursor.execute(read_emlak_geo_sql)
             row = cursor.fetchone()
@@ -61,3 +64,11 @@ class db_worker():
             print("Error while fetching geo data from PostgreSQL", error)
             raise
         return ret
+
+    @staticmethod ##  
+    def save_calc_data(df): # pandas geoframe as input
+        conn_string = f'postgresql://{SQL_USER}:{SQL_PASSWORD}@{SQL_HOST}/{SQL_DB}'
+        db = create_engine(conn_string)
+        conn = db.connect()
+        # converting data to sql
+        df.to_sql('f_emlak_calc', conn, if_exists= 'append', index = False)
