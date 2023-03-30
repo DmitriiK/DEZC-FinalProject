@@ -1,7 +1,8 @@
 import geopandas as gpd
 from shapely.geometry import Point
 from  hepsiemlak_store import db_worker
-MEDITERRANEAN_SEA_GEO_FILE = '/home/dklmn/code/DEZC-FinalProject/emlak_scraping/geo_data/iho.zip'
+from settings import MEDITERRANEAN_SEA_GEO_FILE
+
 
 def get_meditterranean_sea():
     fpath = 'zip://' + MEDITERRANEAN_SEA_GEO_FILE # os.path.join(os.getcwd(), MEDITERRANEAN_SEA_GEO_FILE)
