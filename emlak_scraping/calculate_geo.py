@@ -1,11 +1,11 @@
 import geopandas as gpd
 from shapely.geometry import Point
-import os
 from  hepsiemlak_store import db_worker
-MEDITERRANEAN_SEA_GEO_FILE = 'emlak_scraping/geo_data/iho.zip'
+MEDITERRANEAN_SEA_GEO_FILE = '/home/dklmn/code/DEZC-FinalProject/emlak_scraping/geo_data/iho.zip'
 
 def get_meditterranean_sea():
-    fpath = 'zip://' + os.path.join(os.getcwd(), MEDITERRANEAN_SEA_GEO_FILE)
+    fpath = 'zip://' + MEDITERRANEAN_SEA_GEO_FILE # os.path.join(os.getcwd(), MEDITERRANEAN_SEA_GEO_FILE)
+    print(f'{fpath=}')
     med_sea = gpd.read_file(fpath, encoding='utf-8')
     mseb = med_sea[med_sea['id'] == '28B']# .iloc[0]  # Mediterranean Sea - Eastern Basin
     pol = mseb['geometry'] 
