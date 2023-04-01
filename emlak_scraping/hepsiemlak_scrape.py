@@ -10,10 +10,10 @@ import creds
 
 class scrapping_session:
     """
-    SCRAPING_DEPTH      to restict scrapping depth
-    REQUEST_DELAY  seconds delay bentween requests
+    SCRAPING_DEPTH      to restict scrapping depth, if minus one - without restirctions
+    REQUEST_DELAY  seconds delay between requests
     """
-    def __init__(self, SCRAPING_DEPTH = 999, REQUEST_DELAY:int = 1):
+    def __init__(self, SCRAPING_DEPTH:int = 999, REQUEST_DELAY:int = 1):
         self.SCRAPING_DEPTH = SCRAPING_DEPTH
         self.REQUEST_DELAY = REQUEST_DELAY
         geoURLparts = [
@@ -46,7 +46,7 @@ class scrapping_session:
             self.resp_content_size =+ len(r.content)
             json_resp = r.json()
             totalPages, page = json_resp['totalPages'], json_resp['page'] 
-            if page < totalPages and page<=self.SCRAPING_DEPTH:
+            if page < totalPages and (page<=self.SCRAPING_DEPTH or self.SCRAPING_DEPTH<0):
                 next_page_url = url.replace(f'&page={page}', f'&page={page+1}') # yes, I don't like it as well
         return r.status_code, json_resp, next_page_url
 

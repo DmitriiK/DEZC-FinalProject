@@ -1,3 +1,6 @@
+select * from v_emlak
+
+
 
 
 create or replace view v_emlak as 
@@ -8,9 +11,11 @@ select  eml.id,
   	eml.city_id,  dc.city_name
    ,eml.country_id, c.country_name
    ,eml.district_id,  d.district_name, 
-	eml.room,  eml.livingroom , dft.floor_type_name ,
-	eml.is_furnished, eml.price , eml.sqm_netsqm, eml.maplocation_lat, eml.maplocation_lon,
-	eml.age, ec.dist_to_sea,
+	eml.room,  eml.livingroom , dft.floor_type_name , eml.floor_count,
+	cast(eml.is_furnished as int)  as is_furnished, 
+	eml.price , eml.sqm_netsqm, eml.maplocation_lat, eml.maplocation_lon,
+	eml.age, 
+	cast(1.0*ec.dist_to_sea/1000 as decimal(6,1)) as dist_to_sea,
 	calc.sqm_price
 	,concat(eml.room, '+', eml.livingroom) as room_category 
 	,case when eml.is_furnished then calc.sqm_price else 0 end sqm_price_furnished
@@ -27,10 +32,5 @@ select  eml.id,
 	cross join most_recent_load mrl,
 	lateral (select eml.price/eml.sqm_netsqm as sqm_price) calc
 	where  eml.price/ eml.sqm_netsqm between 40 and 500
-
-create or replace view v_emlak_aggr_by_geo as 	
-select   city_id,  x.city_name, x.country_name, x.district_name
-,x.is_furnished, cast(avg(sqm_price) as int) sqm_price,count(1) cnt 
-from v_emlak x
-group by city_id,  x.city_name, x.country_name, x.district_name, x.is_furnished,country_name
-order by 1, 3,4	
+	--and eml.Id=11030
+	--limit 100 	

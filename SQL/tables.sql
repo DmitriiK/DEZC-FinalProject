@@ -1,9 +1,11 @@
 CREATE TABLE F_LOADS
 (
-load_Id  INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-dt_start TIMESTAMP NOT NULL,
-dt_end TIMESTAMP  NULL,
-rows_processed INT
+    load_Id  INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    dt_start TIMESTAMP NOT NULL,
+    dt_end TIMESTAMP  NULL,
+    items_processed INT NOT NULL DEFAULT 0,
+    is_full BOOLEAN NOT NULL DEFAULT false,
+    status INT NOT NULL DEFAULT 0 /* -1: error, 0: processing, 1: completed*/
 )
 CREATE TABLE D_Cities
 (

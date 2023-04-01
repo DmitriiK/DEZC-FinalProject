@@ -22,7 +22,27 @@ class db_worker():
     def init_load_session(self):  
         self.curr.execute('INSERT INTO F_LOADS(dt_start) VALUES (now()) RETURNING load_id')
         data = self.curr.fetchone()
-        self.load_id = data[0]    
+        self.load_id = data[0] 
+
+
+
+    def close_session(self,status, is_full, items_processed):
+        sql = """UPDATE f_loads SET
+                    items_processed = %s,
+                    is_full = %s,
+                    status = %s,
+                    dt_end = now()
+                    WHERE load_Id = %s"""
+        try:
+            self.curr.execute(sql, (items_processed, is_full, status, self.load_id))        
+            self.connection.commit()
+            # Close communication with the PostgreSQL database
+            self.cur.close()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+        finally:
+            if self.connection is not None:
+                self.connection.close()
 
 
     def create_connection(self):
