@@ -18,6 +18,14 @@ class db_worker():
         if self.connection:
             self.curr.close()
             self.connection.close()
+    
+    def create_connection(self):
+        self.connection = psycopg2.connect(
+            host=SQL_HOST,
+            database=SQL_DB, 
+            user=SQL_USER,
+            password=SQL_PASSWORD)
+        self.curr = self.connection.cursor()
 
     def init_load_session(self):  
         self.curr.execute('INSERT INTO F_LOADS(dt_start) VALUES (now()) RETURNING load_id')
@@ -45,14 +53,7 @@ class db_worker():
                 self.connection.close()
 
 
-    def create_connection(self):
-        self.connection = psycopg2.connect(
-            host=SQL_HOST,
-            database=SQL_DB, 
-            user=SQL_USER,
-            password=SQL_PASSWORD)
 
-        self.curr = self.connection.cursor()
 
 
     def store_db(self, item):
@@ -63,6 +64,37 @@ class db_worker():
         self.curr.execute(sql, values)
         # except BaseException as e:
         self.connection.commit()
+
+    def get_geo_data_for_spatial_interpolation(self, citi_id):
+        raw_prices = []
+        try:
+            read_emlak_sql = "SELECT  eml.id, eml.room, eml.is_furnished, eml.price, eml.sqm_netsqm, " \
+                            "eml.sqm_price, eml.maplocation_lon, eml.maplocation_lat  " \
+                            "FROM public.v_emlak eml " \
+                            "WHERE eml.room between 1 and 5" \
+                            " and eml.is_furnished=1" \
+                            " and CITY_ID=%s"
+            cursor = self.curr
+            cursor.execute(read_emlak_sql,(citi_id,))
+     
+            row = cursor.fetchone()
+            while row is not None:
+                # print(output)               
+                apt_id, bedrooms, rent,   lon, lat = (int(row[0]), int(row[1]), row[5], float(row[6]), float(row[7]))
+                raw_prices.append((bedrooms, rent, lat, lon))
+                row = cursor.fetchone()
+
+        except (Exception, psycopg2.Error) as error:
+            print("Error while fetching data from PostgreSQL", error)
+            raise
+
+        finally:
+            # closing database connection.
+            if self.connection:
+                cursor.close()
+                self.connection.close()
+        return raw_prices
+    
 
     def get_geo_data(self):
         ret = []
@@ -87,6 +119,7 @@ class db_worker():
 
     @staticmethod ##  
     def save_calc_data(df): # pandas geoframe as input
+        
         conn_string = f'postgresql://{SQL_USER}:{SQL_PASSWORD}@{SQL_HOST}/{SQL_DB}'
         db = create_engine(conn_string)
         conn = db.connect()
