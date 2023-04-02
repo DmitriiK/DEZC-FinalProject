@@ -11,6 +11,7 @@ from datetime import datetime
 
 from hepsiemlak_store import db_worker
 from calculate_geo import get_meditterranean_sea
+from settings import SPATIAL_INTERPOLATION_SITE_PATH
 
 # set boundaries in
 
@@ -32,8 +33,8 @@ if CITI_NAME =='Izmir':
 
 # change these to change how detailed the generated image is
 # (1000x1000 is good, but very slow)
-MAX_X = 1000
-MAX_Y = 1000
+MAX_X = 100
+MAX_Y = 100
 
 DRAW_DOTS = True
 CALC_DATE =datetime.now()
@@ -209,11 +210,9 @@ def make_picture(adjustments, buckets, num_phantom_bedrooms, priced_points, pric
             if 0 <= x < MAX_X and 0 <= y < MAX_Y:
                 IM[x, y] = (0, 0, 0)
 
-    output_dir =f"Output/{CITI_NAME}"
-    if not os.path.exists('Output'):
-        os.makedirs('Output')
+    output_dir =f"{SPATIAL_INTERPOLATION_SITE_PATH}/{CITI_NAME}"
     if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+        os.makedirs(output_dir) # todo - need to check whether it works
     out_fname = f"{output_dir}/output.phantom.{MAX_X}" 
     I.save(out_fname + ".png", "PNG")
     with open(out_fname + ".metadata.json", "w") as outf:

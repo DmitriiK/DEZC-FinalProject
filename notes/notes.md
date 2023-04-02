@@ -13,6 +13,7 @@ then to deploy on server need to run:
 
  need to run
  prefect agent start  --work-queue "default"
+ (add nohup .. to make in running even when you close terminal )
  to run the deployment
 
  Metabase:
