@@ -102,7 +102,8 @@ class db_worker():
             connection = self.connection
             read_emlak_geo_sql = "SELECT  eml.id, eml.maplocation_lon, eml.maplocation_lat  " \
                              "FROM public.f_emlak eml " \
-                             "WHERE id NOT IN (select ID from public.f_emlak_calc) " 
+                             "WHERE id NOT IN (select ID from public.f_emlak_calc) " \
+                             "and eml.city_id = 7 /*working with Antalya only for this moment*/"
             cursor = connection.cursor()
             cursor.execute(read_emlak_geo_sql)
             row = cursor.fetchone()

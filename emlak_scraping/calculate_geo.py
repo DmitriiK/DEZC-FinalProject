@@ -1,12 +1,13 @@
 import geopandas as gpd
 from shapely.geometry import Point
+
 from  hepsiemlak_store import db_worker
 from settings import MEDITERRANEAN_SEA_GEO_FILE
 
 
 def get_meditterranean_sea():
     fpath = 'zip://' + MEDITERRANEAN_SEA_GEO_FILE # os.path.join(os.getcwd(), MEDITERRANEAN_SEA_GEO_FILE)
-    print(f'{fpath=}')
+    # print(f'{fpath=}')
     med_sea = gpd.read_file(fpath, encoding='utf-8')
     return med_sea
 
@@ -25,8 +26,7 @@ def get_geo_emlak(crs):
 
 def calc_geo():
     gf_med_sea = get_meditterranean_sea()
-    # mseb = med_sea [med_sea['id'] == '28B']# .iloc[0]  # Mediterranean Sea - Eastern Basin
-    med_sea = gf_med_sea['geometry'] 
+    med_sea = gf_med_sea [gf_med_sea['id'] == '28B']['geometry'] # .iloc[0]  # Mediterranean Sea - Eastern Basin
     gdf_emlak = get_geo_emlak(med_sea.crs)
     proj_crs = 32636 
     # WGS_1984_UTM_Zone_36N  https://pro.arcgis.com/en/pro-app/latest/help/mapping/properties/pdf/projected_coordinate_systems.pdf

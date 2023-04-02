@@ -3,7 +3,7 @@ create or replace view v_emlak as
 with most_recent_load as (select  fl2.load_id  from f_loads fl2 where fl2.is_full and fl2.status =1 order by fl2.load_id desc limit 1) 
 select  eml.id, 
 	eml.createdate, eml.updateddate, fl.dt_start as last_load_date,
-	case when eml.load_id =mrl.load_id then 1 else 0 end as is_most_recent_load,
+	case when eml.load_id >= mrl.load_id then 1 else 0 end as is_most_recent_load,
   	eml.city_id,  dc.city_name
    ,eml.country_id, c.country_name
    ,eml.district_id,  d.district_name, 

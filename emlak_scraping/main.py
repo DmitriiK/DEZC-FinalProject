@@ -10,11 +10,12 @@ def load_to_db(SCRAPING_DEPTH:int, REQUEST_DELAY:int ):
    db.init_load_session()
    scrappy = scrapping_session(SCRAPING_DEPTH = SCRAPING_DEPTH, REQUEST_DELAY= REQUEST_DELAY)
    status=0
+   is_full= (SCRAPING_DEPTH<0 or SCRAPING_DEPTH>=999)
    try:
       for itm in scrappy.scrape():
          db.store_db(itm)
       print(f'{scrappy.items_parsed=}, {scrappy.pages_requested=}, {scrappy.resp_content_size=}')
-      is_full= (SCRAPING_DEPTH<0 or SCRAPING_DEPTH>=999)
+
       status =1
    except :
       status=-1

@@ -7,6 +7,7 @@ import geopandas as gp
 import pandas as pnd
 from shapely.geometry import Point
 import timeit
+from datetime import datetime
 
 from hepsiemlak_store import db_worker
 from calculate_geo import get_meditterranean_sea
@@ -31,11 +32,11 @@ if CITI_NAME =='Izmir':
 
 # change these to change how detailed the generated image is
 # (1000x1000 is good, but very slow)
-MAX_X = 100
-MAX_Y = 100
+MAX_X = 1000
+MAX_Y = 1000
 
 DRAW_DOTS = True
-
+CALC_DATE =datetime.now()
 # at what distance should we stop making predictions?
 IGNORE_DIST = 0.01
 
@@ -217,6 +218,7 @@ def make_picture(adjustments, buckets, num_phantom_bedrooms, priced_points, pric
     I.save(out_fname + ".png", "PNG")
     with open(out_fname + ".metadata.json", "w") as outf:
         outf.write(json.dumps({
+            "calc_date":CALC_DATE.strftime ('%d-%m-%y'),
             "num_phantom_bedrooms": num_phantom_bedrooms,
             "buckets": buckets,
             "n": len(priced_points),
