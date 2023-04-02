@@ -35,7 +35,7 @@ parameter_openapi_schema:
   properties:
     SCRAPING_DEPTH:
       title: SCRAPING_DEPTH
-      default: 999
+      default: -1
       position: 0
       type: integer
     REQUEST_DELAY:

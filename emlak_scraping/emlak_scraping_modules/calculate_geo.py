@@ -1,6 +1,7 @@
 import geopandas as gpd
 from shapely.geometry import Point
 
+
 from  hepsiemlak_store import db_worker
 from settings import MEDITERRANEAN_SEA_GEO_FILE
 

@@ -1,17 +1,25 @@
 from PIL import Image
 import os
 import math
+import timeit
+from datetime import datetime
+import sys
+import os
+
 import numpy
 import json
 import geopandas as gp
 import pandas as pnd
 from shapely.geometry import Point
-import timeit
-from datetime import datetime
 
-from hepsiemlak_store import db_worker
-from calculate_geo import get_meditterranean_sea
-from settings import SPATIAL_INTERPOLATION_SITE_PATH
+current = os.path.dirname(os.path.realpath(__file__))
+parent = os.path.dirname(current)
+sys.path.append(parent)
+
+from  emlak_scraping_modules.hepsiemlak_store import db_worker
+from emlak_scraping_modules.calculate_geo import get_meditterranean_sea
+from emlak_scraping_modules.settings import SPATIAL_INTERPOLATION_SITE_PATH
+
 
 # set boundaries in
 
