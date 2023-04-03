@@ -2,10 +2,10 @@
 from  hepsiemlak_scrape import scrapping_session
 from hepsiemlak_store import db_worker
 
-def load_to_db(SCRAPING_DEPTH:int, REQUEST_DELAY:int ):
+def load_to_db(SCRAPING_DEPTH:int, REQUEST_DELAY:int, PROXY_URL:str = '' ):
    db = db_worker()
    db.init_load_session()
-   scrappy = scrapping_session(SCRAPING_DEPTH = SCRAPING_DEPTH, REQUEST_DELAY= REQUEST_DELAY)
+   scrappy = scrapping_session(SCRAPING_DEPTH = SCRAPING_DEPTH, REQUEST_DELAY= REQUEST_DELAY, PROXY_URL=PROXY_URL)
    status=0
    is_full= (SCRAPING_DEPTH<0 or SCRAPING_DEPTH>=999)
    try:

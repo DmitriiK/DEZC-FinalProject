@@ -13,7 +13,7 @@ class scrapping_session:
     SCRAPING_DEPTH      to restict scrapping depth, if minus one - without restirctions
     REQUEST_DELAY  seconds delay between requests
     """
-    def __init__(self, SCRAPING_DEPTH:int = 999, REQUEST_DELAY:int = 1):
+    def __init__(self, SCRAPING_DEPTH:int = 999, REQUEST_DELAY:int = 1,  PROXY_URL:str = ''):
         self.SCRAPING_DEPTH = SCRAPING_DEPTH
         self.REQUEST_DELAY = REQUEST_DELAY
         geoURLparts = [
@@ -31,12 +31,11 @@ class scrapping_session:
         self.items_parsed = 0
         self.session = requests.Session()
         if (settings.NEED_PROXY):
-            if creds.PROXY_URL:
-                proxy_full_url = f'http://{creds.PROXY_URL}'
-                self.session.proxies = {
-                    'http': proxy_full_url,
-                    'https': proxy_full_url,
-                }
+            proxy_url = PROXY_URL if  PROXY_URL else creds.PROXY_URL
+            self.session.proxies = {
+                'http': proxy_url,
+                'https': proxy_url,
+            }
 
     def request_api(self, url):
         self.pages_requested +=1
