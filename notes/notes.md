@@ -6,6 +6,8 @@ az vm stop  -g rgMain -n dklmnUbuntu
 
  prefect orion start  # will start web UI
 
+ proxy settings should be configured in prefect Secret block "proxy-url", 'http://<username>:<psw>@node-tr-2.astroproxy.com:11183'
+
  prefect deployment build ./main.py:main_task -n "Emlak Srappy"
   - will create emlak_scraping/main_task-deployment.yaml file, need to add parameters
 then to deploy on server need to run:

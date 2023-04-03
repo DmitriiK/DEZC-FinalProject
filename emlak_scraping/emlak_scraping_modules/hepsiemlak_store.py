@@ -45,7 +45,7 @@ class db_worker():
             self.curr.execute(sql, (items_processed, is_full, status, self.load_id))        
             self.connection.commit()
             # Close communication with the PostgreSQL database
-            self.cur.close()
+            self.curr.close()
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
         finally:

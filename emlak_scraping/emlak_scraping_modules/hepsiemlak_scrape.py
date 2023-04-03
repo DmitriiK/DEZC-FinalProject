@@ -31,8 +31,8 @@ class scrapping_session:
         self.items_parsed = 0
         self.session = requests.Session()
         if (settings.NEED_PROXY):
-            if creds.PROXY_USER and creds.PROXY_PASSWORD:
-                proxy_full_url = f'http://{creds.PROXY_USER}:{creds.PROXY_PASSWORD}@{settings.PROXY}'
+            if creds.PROXY_URL:
+                proxy_full_url = f'http://{creds.PROXY_URL}'
                 self.session.proxies = {
                     'http': proxy_full_url,
                     'https': proxy_full_url,
