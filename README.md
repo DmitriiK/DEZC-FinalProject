@@ -60,13 +60,14 @@
   - Create a Telegram chat bot, that will send such proposals, using the requirements, given by user
   - Create separate dashboards for all cities.
   -  Add more sities to processing
+  -  Make colored map of price distributions, using division by Mahalle (small city region in Turkey)
 
 - Non functional requirements
   - Perfomance of dashboard rendering. Currently it works bit slowly. Need to investigate what can be done on database level, maybe it would make sence to leverage column store indexes or leverage caching in Metabase
   - Perform some refactoring of the code
   - Polish litle bit the appearance of dashboards
   - Investigate does it worth trying another open source BI tools, like Apache Superset.
-  - Make colored map of price distributions, using division by Mahalle (small city region in Turkey)
+
 
 
     
