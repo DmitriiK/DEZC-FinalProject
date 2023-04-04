@@ -5,9 +5,9 @@
 ## Objectives:
  - Create a datewarehouse for storing of data, related to realty market in Turkey
  - Create a system, that will refresh the data in this DW on periodic basis.
- - Calculate new geo-spatial attributes for realty objects in DWH, like "Distance to the sea cost" (Currently works for Antaly only)
+ - Calculate new geospatial attributes for realty objects in DWH, like "Distance to the sea cost" (Currently works for Antaly only)
  - Create dashboard for visualisation of the data in DWH
- - Usinig spatial interpolation, calculate a 2-D distibution  of prices of squre meter. The output of that process is some raster picture, that can be overlayed to Google Maps
+ - Using of  spatial interpolation, calculate a 2-D distribution  of prices of square meter. The output of that process is some raster picture, that can be overlayed to Google Maps
 
 
 ## What technologies are being used?
@@ -22,7 +22,7 @@
 
 ## Data sources:
 - [Hepsiemlak](https://www.hepsiemlak.com/) - Turkish site with ads with realy objects, sell and rent.
-- Files with geopatial data, Medittenenin Sea borders, poligons with administrative districst in Turkey.
+- Files with geospatial data, Mediterranean Sea borders, polygons with administrative districts in Turkey.
 
 ## Repository organization
 - deployment:
@@ -30,3 +30,4 @@
  - [emlak_scraping](emlak_scraping/README.md): main python code for scraping, parsing, loading to DWH and geo-calculations
  -  metabase - just postgres backup of my metabase (unfortunately, free version of Metabase does not allow to export/import metadata)
  -  SQL : database schema and stored procedures for DWH
+    
