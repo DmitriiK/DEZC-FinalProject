@@ -1,6 +1,6 @@
 from prefect import flow, task
 from prefect.blocks.system import Secret
-from  emlak_scraping_modules.scrape_and_save import load_to_db
+from  emlak_scraping.emlak_scraping_modules.scrape_and_store import load_to_db
 from emlak_scraping_modules.calculate_geo import calc_and_save
 import emlak_scraping_modules.settings as set
 

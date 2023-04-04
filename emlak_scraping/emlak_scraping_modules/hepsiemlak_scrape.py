@@ -16,12 +16,7 @@ class scrapping_session:
     def __init__(self, SCRAPING_DEPTH:int = 999, REQUEST_DELAY:int = 1,  PROXY_URL:str = ''):
         self.SCRAPING_DEPTH = SCRAPING_DEPTH
         self.REQUEST_DELAY = REQUEST_DELAY
-        geoURLparts = [
-            'izmir-kiralik?',  # Izmir
-            'antalya-kiralik?counties=kepez,konyaalti,muratpasa&',  # Antalya
-            'mersin-icel-kiralik-esyali?'  # Mersin
-        ]
-
+        geoURLparts = settings.GEO_URL_PARTS
         self.start_urls = [f'https://www.hepsiemlak.com/api/realty-list/{x}&{y}&page=1' for x, y in product(geoURLparts, [GetParams.IsFurnished, GetParams.NotIsFurnished])]
         # https://www.hepsiemlak.com/antalya-kiralik-esyali?counties=kepez,konyaalti,muratpasa&furnishStatus=FURNISHED
         # https://www.hepsiemlak.com/api/realty-list/izmir-kiralik?furnishStatus=FURNISHED&page=1
