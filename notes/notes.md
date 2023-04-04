@@ -2,7 +2,9 @@ az vm start -g rgMain -n dklmnUbuntu
 az vm stop  -g rgMain -n dklmnUbuntu
 
 
-
+conda create --name zoomcamp
+cd emlak_scraping
+pip install -r requirements.txt
 
  prefect orion start  # will start web UI
 
