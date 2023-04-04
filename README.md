@@ -54,17 +54,17 @@
 
 ## In my future plans
 - Functional requirements
--- Apply multiple regression calculation for creation of some statisctical models
--- And a filter, that will allow to show on "most attractive proposals" using this model
--- Create a Telegram chat bot, that will send such proposals, using the requirements, given by user
--- Create separate dashboards for all cities.
--- Add more sities to processing
+  - Apply multiple regression calculation for creation of some statisctical models
+  - And a filter, that will allow to show on "most attractive proposals" using this model
+  - Create a Telegram chat bot, that will send such proposals, using the requirements, given by user
+  - Create separate dashboards for all cities.
+  -  Add more sities to processing
 
 - Non functional requirements
--- Perfomance of dashboard rendering. Currently it works bit slowly. Need to investigate what can be done on database level, maybe it would make sence to leverage column store indexes or leverage caching in Metabase
--- Perform some refactoring of the code
--- Polish litle bit the appearance of dashboards
--- Investigate does it worth trying another open source BI tools, like Apache Superset.
+  - Perfomance of dashboard rendering. Currently it works bit slowly. Need to investigate what can be done on database level, maybe it would make sence to leverage column store indexes or leverage caching in Metabase
+  - Perform some refactoring of the code
+  - Polish litle bit the appearance of dashboards
+  - Investigate does it worth trying another open source BI tools, like Apache Superset.
 
 
     
