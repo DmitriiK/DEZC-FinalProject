@@ -1,6 +1,6 @@
 # Aggregation of data on the cost of renting of apartments in the cities of the Mediterranean coast of Turkey
+![image](https://user-images.githubusercontent.com/20965831/229925996-f877ad63-d7dd-4bc9-9794-7282270faa82.png)
 
-![image](https://user-images.githubusercontent.com/20965831/229924892-54f33823-1f69-4733-acc7-a632999abfd1.png)
 
 
 ## Objectives:
