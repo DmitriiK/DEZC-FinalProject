@@ -1,5 +1,11 @@
 # Realty data processing python  modules.
 - main.py : used as entry point for deployment to Prefect server
 - emlak scraping modules: modules for data load pipeline
-- draw_spatial: models for spatial interpolation and generation of raster file with geo-spatial distributin of price of square meter
-- geo-data: files with geo-spatial data, that are used here (currently we have iho.zip, - file with Medditerenean see poligons)
+  - hepsiemlak_scrape - scraping and parsing of data, using generator methods
+  - hepsiemlak_store.py - interaction with DB
+  - metadata.py - list of field from json response  and combinations of parameters for GET request
+  - setting.py
+  - cred.py - credential
+  - scrape_and_store.py -just combination of first 2 ones
+- draw_spatial: modules for spatial interpolation and generation of raster file with geospatial distributing of price of square meter
+- geo-data: files with geospatial data, that are used here (currently we have iho.zip, - file with Mediterranean see poligons)

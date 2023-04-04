@@ -3,7 +3,7 @@
 
 
 ## Objectives:
- - Create a datewarehouse for storing of data, related to realty market in Turkey
+ - Create a date-warehouse for storing of data, related to realty market in Turkey
  - Create a system, that will refresh the data in this DWH on a periodic basis.
  - Calculate new geospatial attributes for realty objects in DWH, like "Distance to the sea cost" (Currently works for Antaly only)
  - Create dashboard for visualisation of the data in DWH
@@ -65,6 +65,7 @@
   - Perform some refactoring of the code
   - Polish litle bit the appearance of dashboards
   - Investigate does it worth trying another open source BI tools, like Apache Superset.
+  - Make colored map of price distributions, using division by Mahalle (small city region in Turkey)
 
 
     

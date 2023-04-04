@@ -18,7 +18,7 @@ def recalculate():
 def main_task(SCRAPING_DEPTH:int = -1, REQUEST_DELAY:int =1):
    PROXY_URL = ''
    if sett.NEED_PROXY:
-      secret_block = Secret.load("proxy-url") # blocsk got broken   
+      secret_block = Secret.load("proxy-url")  
       PROXY_URL= secret_block.get()
    refresh_primary_data(SCRAPING_DEPTH, REQUEST_DELAY, PROXY_URL)
    recalculate()

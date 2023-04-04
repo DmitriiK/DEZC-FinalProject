@@ -3,7 +3,7 @@ emlak_scraping/local_test.py
 emlak_scraping/emlak_scraping_modules/__pycache__/*
 
 /.idea/.gitignore
-/.vs/DEZC-FinalProject/FileContentIndex/5f00d2ea-1f5a-4efe-a9b6-9ac986d6c46d.vsidx
+/.vs/DEZC-FinalProject/*
 /.idea/DEZC-FinalProject.iml
 /.idea/misc.xml
 /.idea/modules.xml
@@ -12,3 +12,4 @@ emlak_scraping/emlak_scraping_modules/__pycache__/*
 /.vs/slnx.sqlite
 /.idea/vcs.xml
 /.vs/VSWorkspaceState.json
+emlak_scraping/draw_spatial/draw_heatmap_readme.md
