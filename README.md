@@ -21,9 +21,14 @@
 - Data visualization and reporting: [Metabase](https://www.metabase.com/)
 - [Spatial interpolation using IDW](https://gisgeography.com/inverse-distance-weighting-idw-interpolation/) - Initial idea was taken from [Jack Kaufman publication](https://www.jefftk.com/p/updated-boston-apartment-price-maps)
 
+## DWH database schema
+![image](https://user-images.githubusercontent.com/20965831/230157355-733b663d-f417-48f8-a98d-e66994c2c0e1.png)
+
+
 ## Data sources:
 - [Hepsiemlak](https://www.hepsiemlak.com/) - Turkish site with ads with realy objects, sell and rent.
 - Files with geospatial data, Mediterranean Sea borders, polygons with administrative districts in Turkey.
+
 
 ## Currently it works like this:
 ![image](https://user-images.githubusercontent.com/20965831/229867093-2f5571a2-49bc-4d36-a0c7-0339d612a0a0.png)
