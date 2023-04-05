@@ -22,7 +22,7 @@
 - [Spatial interpolation using IDW](https://gisgeography.com/inverse-distance-weighting-idw-interpolation/) - Initial idea was taken from [Jack Kaufman publication](https://www.jefftk.com/p/updated-boston-apartment-price-maps)
 
 ## DWH database schema
-![image](https://user-images.githubusercontent.com/20965831/230157355-733b663d-f417-48f8-a98d-e66994c2c0e1.png)
+![image](https://user-images.githubusercontent.com/20965831/230159798-368ed399-b085-4c74-abb7-f97551642be1.png)
 
 
 ## Data sources:
