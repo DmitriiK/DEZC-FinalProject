@@ -44,16 +44,19 @@
 -  [deployment](deployment/README.md):
     &ensp;&thinsp; Docker files and prefect deployment file, and file with deployment and setup desciption
  - [emlak_scraping](emlak_scraping/README.md): main python code for scraping, parsing, loading to DWH and geo-calculations
- -  metabase - just postgres backup of my metabase (unfortunately, free version of Metabase does not allow to export/import metadata)
- -  SQL : database schema and stored procedures for DWH
+ -  [metabase](metabase) - just postgres backup of my metabase (unfortunately, free version of Metabase does not allow to export/import metadata)
+ -  [SQL](SQL) : database schema and stored procedures for DWH
 
 ## Results
-- Dashboard for all cities
+- [Dashboard for all cities](http://dklmn.westeurope.cloudapp.azure.com:3000/public/dashboard/036832b6-da5d-4da8-b1e4-c2720926d01e?room_category=2%2B1&room_category=1%2B1&room_category=3%2B1&room_category=4%2B1&age_or_buiding_is_less_than=100)
+
 ![image](https://user-images.githubusercontent.com/20965831/229874671-cb6bca21-ef77-43cb-b83a-9af48d512043.png)
  &ensp;&thinsp;
-- Dashboard with detailed information for Antalya
-![image](https://user-images.githubusercontent.com/20965831/229874237-028dc808-3fd5-482b-8272-db36e89a8bf8.png)
- &ensp;&thinsp;
+ 
+- [Dashboard with detailed information for Antalya](http://dklmn.westeurope.cloudapp.azure.com:3000/public/dashboard/57630ab3-a557-4e3b-a081-2beb2dc2da93?room_category=1%2B1&room_category=2%2B1&room_category=3%2B1&room_category=4%2B1&distance_to_see_within.._km=30&number_of_floors_in_the_building=1&number_of_floors_in_the_building=10)  
+Note: dashboards from the links above might be unavailable, as I might switch off the VM to save some money..
+![image](https://user-images.githubusercontent.com/20965831/229874237-028dc808-3fd5-482b-8272-db36e89a8bf8.png)  
+
  - Web pages with results of spatial interpolation
  [Antalya rent prices spatial distributions.](https://dmitriik.github.io/RealtyEstimation/Antalya/)
 ![image](https://user-images.githubusercontent.com/20965831/229874912-acdd7cd4-684b-432f-a618-340ba612b04d.png)
