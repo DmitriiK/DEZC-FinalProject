@@ -15,6 +15,7 @@
 - Cloud: [Azure Cloud](https://cloud.google.com)
 - Containerization [Docker](https://www.docker.com
 )
+- Cloud infrastucture: [Terraform](https://www.terraform.io/)
 - DWH: [Postres](https://www.postgresql.org/)
 - Orchestration: [Prefect](https://www.prefect.io/)
 - Data transformation: self made Python pipelines, leveraging [Pandas](https://pandas.pydata.org/) and [GeoPandas](https://geopandas.org)
@@ -34,6 +35,7 @@
 ![image](https://user-images.githubusercontent.com/20965831/229867093-2f5571a2-49bc-4d36-a0c7-0339d612a0a0.png)
 
 - Python pipeline scrapes data from some API, provided by [Hepsiemlak](https://www.hepsiemlak.com/), loads that data to kind of DWS (simple star schema in of Postgres). Note: when running this pipeline form the locations outsdide Turkey, need to use Turksih proxy.
+- As an optional functionality we have a possibility to save the json response to kind of Data Lake in Azure Blob Storage 
 - Another python script calculates distance to the sea, using spatial files with  Mediterranan Sea borders, leveraging GeoPandas (currenlty works for Antalya only).
 (the work of these 2 pipelines is orchestrated by Prefect)
 - Another pythoh script uses that data for spatial intrerpolation calculations. An output of this process is raster image file. It should be copied to some static site, where we can overlay it on Google Maps. Final result of that process looks like this.(Currenlty this step is done manually)

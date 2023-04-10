@@ -33,6 +33,7 @@ and create 'proxy-url' key in the "Secrets" block. URL might look like this - 'h
 You should consider the parameters from the docker compose file from the prev step.
 Take the dump file from metabase folder  and restore it to Postgres server. This will create necessary models and dashboard in metabase
   (Unfortunately free version of Metabase does not support import export)
+- If you are goint go levarage saving of json response to blob storage, create Azure blob storage account and container for it, using either terraform templates here or manually, and set the correspondent values of settings.py file to try. You should also provide connection string after that, either write it to creds.py file, or apply it as Prefect Secret Block
 - Reassign some environment-specific values in \emlak_scraping_modules\settings.py and creds.py. 
  You can also change here parameter GEO_URL_PARTS, which affects the initial pages for scraping. 
  - Check Postgres database with the name, specified in settings.SQL_DB parameter and in docker-compose file, (emlak). 
