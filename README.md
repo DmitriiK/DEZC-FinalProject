@@ -64,17 +64,17 @@ Note: dashboards from the links above might be unavailable, as I might switch of
 
 ## In my future plans
 - Functional requirements
-  - Apply multiple regression calculation for creation of some statisctical models
+  - Apply multiple regression calculation for creation of some statistical models
   - And a filter, that will allow to show on "most attractive proposals" using this model
   - Create a Telegram chat bot, that will send such proposals, using the requirements, given by user
   - Create separate dashboards for all cities.
-  -  Add more sities to processing
-  -  Make colored map of price distributions, using division by Mahalle (small city region in Turkey)
+  - Add more sities to processing
+  - Make colored map of price distributions, using division by Mahalle (small city region in Turkey)
 
 - Non functional requirements
-  - Perfomance of dashboard rendering. Currently it works bit slowly. Need to investigate what can be done on database level, maybe it would make sence to leverage column store indexes or leverage caching in Metabase
+  - Perfomance of dashboard rendering. Currently it works bit slowly. Need to investigate what can be done on database level, maybe it would make sence to leverage column store indexes or caching in Metabase
   - Perform some refactoring of the code
-  - Polish litle bit the appearance of dashboards
+  - Polish little bit the appearance of dashboards
   - Investigate does it worth trying another open source BI tools, like Apache Superset.
 
 
