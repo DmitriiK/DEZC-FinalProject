@@ -37,6 +37,9 @@ Take the dump file from metabase folder  and restore it to Postgres server. This
  You can also change here parameter GEO_URL_PARTS, which affects the initial pages for scraping. 
  - Check Postgres database with the name, specified in settings.SQL_DB parameter and in docker-compose file, (emlak). 
  Run on this DB the scripts for creation of tables, SP-s and views from SQL folder.
+ - If you want to store scraped data not only in DWH storage, but in the Azure Blob Storage as well, need to 
+assign the values settings.SAVE_TO_BLOB_STORAGE and creds.BLOB_STORAGE_CONNECTION_STRING.
+
 - Run the emlak_scraping\main.py script. You can use default parameters, SCRAPING_DEPTH:int = -1, REQUEST_DELAY:int =1. 
 It will mean that scraping module will parse all pages up to the end, using 1 seconds delay between each get request
 Check, if  data has appeared in the appropriate tables, and the result of flow runs are visible in Prefect UI in the Flow Runs.

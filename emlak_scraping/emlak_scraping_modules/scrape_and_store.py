@@ -1,6 +1,6 @@
 
 from  hepsiemlak_scrape import scrapping_session
-from hepsiemlak_store import db_worker
+from hepsiemlak_dwh import db_worker
 
 def load_to_db(SCRAPING_DEPTH:int, REQUEST_DELAY:int, PROXY_URL:str = '' ):
    db = db_worker()

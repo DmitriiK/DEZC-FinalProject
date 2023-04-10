@@ -2,7 +2,8 @@
 - main.py : used as entry point for deployment to Prefect server
 - emlak scraping modules: modules for data load pipeline
   - hepsiemlak_scrape - scraping and parsing of data, using generator methods
-  - hepsiemlak_store.py - interaction with DB
+  - hepsiemlak_dwh.py - iteraction with DB
+  - datalake_store.py - iteractions with azure blog storage
   - metadata.py - list of field from json response  and combinations of parameters for GET request
   - setting.py
   - cred.py - credential

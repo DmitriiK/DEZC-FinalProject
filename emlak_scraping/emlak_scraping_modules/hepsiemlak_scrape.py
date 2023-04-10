@@ -2,24 +2,32 @@
 import requests
 import time
 from  itertools import product
-
+import json
 from metadata import JsonSchema, GetParams
 import settings 
 import creds
-# baseURL = 'https://www.hepsiemlak.com/api/realty-list/'
+from datalake_store import AzureBlobFileUploader
+baseURL = 'https://www.hepsiemlak.com/api/realty-list'
+
 
 class scrapping_session:
     """
     SCRAPING_DEPTH      to restict scrapping depth, if minus one - without restirctions
     REQUEST_DELAY  seconds delay between requests
     """
+
     def __init__(self, SCRAPING_DEPTH:int = 999, REQUEST_DELAY:int = 1,  PROXY_URL:str = ''):
         self.SCRAPING_DEPTH = SCRAPING_DEPTH
         self.REQUEST_DELAY = REQUEST_DELAY
         geoURLparts = settings.GEO_URL_PARTS
-        self.start_urls = [f'https://www.hepsiemlak.com/api/realty-list/{x}&{y}&page=1' for x, y in product(geoURLparts, [GetParams.IsFurnished, GetParams.NotIsFurnished])]
+        self.start_urls = [f'{baseURL}/{x}&{y}&page=1' for x, y in product(geoURLparts, [GetParams.IsFurnished, GetParams.NotIsFurnished])]
         # https://www.hepsiemlak.com/antalya-kiralik-esyali?counties=kepez,konyaalti,muratpasa&furnishStatus=FURNISHED
         # https://www.hepsiemlak.com/api/realty-list/izmir-kiralik?furnishStatus=FURNISHED&page=1
+
+        if settings.SAVE_TO_BLOB_STORAGE:
+            self.blob_sink = AzureBlobFileUploader()
+
+
 
         self.resp_content_size = 0 # responce content size
         self.pages_requested = 0
@@ -35,14 +43,14 @@ class scrapping_session:
     def request_api(self, url):
         self.pages_requested +=1
         r = self.session.get(url,  headers={'Accept': 'application/json'} ) # , verify=False
-        json_resp, next_page_url = None, None
+        json_resp, next_page_url,page = None, None, None
         if (r.status_code == 200):
             self.resp_content_size =+ len(r.content)
             json_resp = r.json()
             totalPages, page = json_resp['totalPages'], json_resp['page'] 
             if page < totalPages and (page<=self.SCRAPING_DEPTH or self.SCRAPING_DEPTH<0):
                 next_page_url = url.replace(f'&page={page}', f'&page={page+1}') # yes, I don't like it as well
-        return r.status_code, json_resp, next_page_url
+        return r.status_code, json_resp, next_page_url, page
 
 
     def parse_json(self, json_resp, url):   
@@ -68,8 +76,9 @@ class scrapping_session:
             while (url):
                 print(f'url: {url}')
                 number_of_attempts+=1
-                status, json_data, next_url = self.request_api(url)
+                status, json_data, next_url,page = self.request_api(url)
                 if status == 200:
+                    self.save_to_blob(json_data, url, page)
                     for itm in self.parse_json(json_data, url):
                         yield itm
                 else:
@@ -82,6 +91,20 @@ class scrapping_session:
 
                 time.sleep(self.REQUEST_DELAY)
                 url = next_url
+
+    def save_to_blob(self,json_data:str, url:str, page:int):
+        if not settings.SAVE_TO_BLOB_STORAGE:
+            return
+        if not self.blob_sink:
+            self.blob_sink = AzureBlobFileUploader()
+        bs_init_data = self.blob_sink.init_data
+        geo_part = [x for x in settings.GEO_URL_PARTS if x in url][0] #something wrong with this implementation..
+        blob_file_path = f'{bs_init_data.year}/{bs_init_data.month}/{bs_init_data.day}/{geo_part}/{page}.json'
+        json_str = json.dumps(json_data, indent=4, ensure_ascii=False)
+        self.blob_sink.upload_content(blob_file_path=blob_file_path, content=json_str)
+
+
+
 
 if __name__ == '__main__':
    scrappy = scrapping_session()

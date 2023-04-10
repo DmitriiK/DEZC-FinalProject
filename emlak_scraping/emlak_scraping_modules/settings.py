@@ -1,7 +1,7 @@
 SQL_HOST = 'localhost'
 SQL_DB = 'emlak'
 
-NEED_PROXY = 1
+NEED_PROXY = 0
 PROXY = 'node-tr-2.astroproxy.com:11183'
 
 GEO_URL_PARTS = [
@@ -11,4 +11,5 @@ GEO_URL_PARTS = [
         ]
 
 MEDITERRANEAN_SEA_GEO_FILE = '/home/dklmn/code/DEZC-FinalProject/emlak_scraping/geo_data/iho.zip' # file path to geo shape file with sea
-SPATIAL_INTERPOLATION_SITE_PATH ='/home/dklmn/code/DmitriiK.github.io/RealtyEstimation/' # Path to output folder for spatial interpolation calculations
+SPATIAL_INTERPOLATION_SITE_PATH ='/home/dklmn/code/DmitriiK.github.io/RealtyEstimation/' # Path to output folder for spatial interpolation calculati
+SAVE_TO_BLOB_STORAGE = True # IF    true, we are saving to data lake as well
