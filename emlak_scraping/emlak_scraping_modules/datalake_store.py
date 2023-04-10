@@ -1,19 +1,15 @@
 
 import logging
 from datetime import datetime
-from azure.storage.blob import BlobServiceClient, BlobClient
-## shouldn't we leverage a azure-storage-file-datalake ? not sure what benefit it would give
-from creds import BLOB_STORAGE_CONNECTION_STRING
+from azure.storage.blob import BlobServiceClient
+ ## shouldn't we leverage a azure-storage-file-datalake ? not sure what benefit it would give
 
- 
-# Replace with blob container. This should be already created in azure storage.
 DL_CONTAINER = "hepsiemlak"
-
  
 class AzureBlobFileUploader:
-  def __init__(self):
+  def __init__(self, bs_connections_string: str):
     self.init_data = datetime.now()
-    self.blob_service_client =  BlobServiceClient.from_connection_string(BLOB_STORAGE_CONNECTION_STRING)
+    self.blob_service_client =  BlobServiceClient.from_connection_string(bs_connections_string)
  
   def upload_content(self,content, blob_file_path):
     # Create blob with same name as local file name

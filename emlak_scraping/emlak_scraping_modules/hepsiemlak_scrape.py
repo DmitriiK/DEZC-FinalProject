@@ -16,7 +16,7 @@ class scrapping_session:
     REQUEST_DELAY  seconds delay between requests
     """
 
-    def __init__(self, SCRAPING_DEPTH:int = 999, REQUEST_DELAY:int = 1,  PROXY_URL:str = ''):
+    def __init__(self, SCRAPING_DEPTH:int = 999, REQUEST_DELAY:int = 1,  PROXY_URL:str = '',  AZURE_BS_CS:str =''):
         self.SCRAPING_DEPTH = SCRAPING_DEPTH
         self.REQUEST_DELAY = REQUEST_DELAY
         geoURLparts = settings.GEO_URL_PARTS
@@ -25,9 +25,8 @@ class scrapping_session:
         # https://www.hepsiemlak.com/api/realty-list/izmir-kiralik?furnishStatus=FURNISHED&page=1
 
         if settings.SAVE_TO_BLOB_STORAGE:
-            self.blob_sink = AzureBlobFileUploader()
-
-
+            bs_cs = AZURE_BS_CS or creds.BLOB_STORAGE_CONNECTION_STRING
+            self.blob_sink = AzureBlobFileUploader(bs_cs)
 
         self.resp_content_size = 0 # responce content size
         self.pages_requested = 0
