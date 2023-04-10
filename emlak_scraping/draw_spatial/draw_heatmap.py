@@ -16,7 +16,7 @@ current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
 sys.path.append(parent)
 
-from  emlak_scraping_modules.hepsiemlak_store import db_worker
+from  emlak_scraping_modules.hepsiemlak_dwh import db_worker
 from emlak_scraping_modules.calculate_geo import get_meditterranean_sea
 from emlak_scraping_modules.settings import SPATIAL_INTERPOLATION_SITE_PATH
 

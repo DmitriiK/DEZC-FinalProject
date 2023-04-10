@@ -15,7 +15,7 @@
 - Cloud: [Azure Cloud](https://cloud.google.com)
 - Containerization [Docker](https://www.docker.com
 )
-- Cloud infrastucture: [Terraform](https://www.terraform.io/)
+- Cloud infrastucture: [Terraform](https://www.terraform.io/(https://www.terraform.io/)
 - DWH: [Postres](https://www.postgresql.org/)
 - Orchestration: [Prefect](https://www.prefect.io/)
 - Data transformation: self made Python pipelines, leveraging [Pandas](https://pandas.pydata.org/) and [GeoPandas](https://geopandas.org)

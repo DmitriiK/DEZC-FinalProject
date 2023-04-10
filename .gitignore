@@ -13,3 +13,5 @@ emlak_scraping/emlak_scraping_modules/__pycache__/*
 /.idea/vcs.xml
 /.vs/VSWorkspaceState.json
 emlak_scraping/draw_spatial/draw_heatmap_readme.md
+emlak_scraping/emlak_scraping_modules/creds.py
+nohup.out
