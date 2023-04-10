@@ -13,9 +13,8 @@
 
 ## What technologies are being used?
 - Cloud: [Azure Cloud](https://cloud.google.com)
-- Containerization [Docker](https://www.docker.com
-)
-- Cloud infrastucture: [Terraform](https://www.terraform.io/(https://www.terraform.io/)
+- Containerization: [Docker](https://www.docker.com)
+- Cloud infrastucture: [Terraform](https://www.terraform.io)
 - DWH: [Postres](https://www.postgresql.org/)
 - Orchestration: [Prefect](https://www.prefect.io/)
 - Data transformation: self made Python pipelines, leveraging [Pandas](https://pandas.pydata.org/) and [GeoPandas](https://geopandas.org)
@@ -45,7 +44,7 @@
 ## Repository organization
 -  [deployment](deployment/README.md):
     &ensp;&thinsp; Docker files and prefect deployment file, and file with deployment and setup desciption
- - [emlak_scraping](emlak_scraping/README.md): main python code for scraping, parsing, loading to DWH and geo-calculations
+ - [emlak_scraping](emlak_scraping/README.md): main python code for scraping, parsing, loading to DWH and geo-calculations. 
  -  [metabase](metabase) - just postgres backup of my metabase (unfortunately, free version of Metabase does not allow to export/import metadata)
  -  [SQL](SQL) : database schema and stored procedures for DWH
 
