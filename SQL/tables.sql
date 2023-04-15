@@ -39,6 +39,18 @@ CREATE TABLE  public.d_floor_type
     UNIQUE(floor_type_name)
 )
 
+CREATE TABLE D_Room_Category
+(
+    room_category_id  SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    room smallint not NULL, /*number of bedrooms*/
+    living_room smallint not NULL,
+    -- room_category_name VARCHAR(20) GENERATED ALWAYS AS  concat(room, '+', livingroom), /*2+1 - 2 bedrooms and a kitchen*/
+    UNIQUE(room, living_room)
+)
+
+    
+
+
 CREATE TABLE F_Emlak
 (
     id  INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -60,7 +72,8 @@ CREATE TABLE F_Emlak
     detailDescription  VARCHAR(255),
     is_furnished BOOLEAN,
     is_gaz BOOLEAN,
-    floor_type_id INT NULL REFERENCES public.d_floor_type(floor_type_id)
+    floor_type_id INT NULL REFERENCES public.d_floor_type(floor_type_id),
+    room_category_id SMALLINT  NOT NULL REFERENCES public.D_Room_Category(room_category_id) 
     UNIQUE(source_emlak_id)
 )
 

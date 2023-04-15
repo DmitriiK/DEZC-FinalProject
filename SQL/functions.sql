@@ -27,6 +27,8 @@ CREATE or REPLACE PROCEDURE pr_merge_emlak_data (
 LANGUAGE plpgsql
 AS $$
 DECLARE  _floor_type_id int;
+DECLARE  _room_category_id smallint;
+DECLARE  _room smallint := room; --have to re-assign to avoid conflicts
 BEGIN
 	with src as (select * from (values (city_id, city_name ,load_id)) s(city_id, city_name,load_id))
 	merge into D_Cities trg
@@ -60,25 +62,37 @@ BEGIN
 	ON     CONFLICT DO NOTHING;
 
     SELECT ft.floor_type_id INTO _floor_type_id FROM d_floor_type ft WHERE ft.floor_type_name =floor_type;
+	
+	  ------ room_category
+  
+	with src as (select * from (values (_room, livingRoom)) s(room, living_room))
+	merge into d_room_category  trg
+	using src
+		on src.living_room = trg.living_room and src.room = trg.room
+	when not matched then
+	  insert (room, living_room) values (src.room, src.living_room);
+ 
+    SELECT rc.room_category_id INTO _room_category_id FROM D_Room_Category rc WHERE rc.living_room =livingRoom and rc.room = _room;
+
 
 	 --
 	 WITH src as (select * from (values(load_id, source_emlak_id, age, price, createdate, updateddate, maplocation_lon,maplocation_lat
-	 , city_id, country_id, district_id, sqm_netsqm, room, livingRoom, floor_count, detaildescription, is_furnished, _floor_type_id
+	 , city_id, country_id, district_id, sqm_netsqm,  floor_count, detaildescription, is_furnished, _floor_type_id, _room_category_id
 	 ))
 	 s(load_id, source_emlak_id, age, price, createdate, updateddate, maplocation_lon,maplocation_lat
-	 ,city_id, country_id, district_id, sqm_netsqm, room, livingRoom, floor_count, detaildescription, is_furnished, floor_type_id)
+	 ,city_id, country_id, district_id, sqm_netsqm,  floor_count, detaildescription, is_furnished, floor_type_id, room_category_id)
 	 )
 	 MERGE INTO f_emlak as trg
 	 using src
 		on src.source_emlak_id = trg.source_emlak_id
 	 when matched then
 	  update set load_id = src.load_id, updateddate = src.updateddate, sqm_netsqm = src.sqm_netsqm
-	  , price = src.price, detaildescription = src.detaildescription, floor_type_id=src.floor_type_id
+	  , price = src.price, detaildescription = src.detaildescription, floor_type_id=src.floor_type_id, room_category_id=src.room_category_id
 	 when not matched then
 	  insert (load_id, source_emlak_id, age, price, createdate, updateddate, maplocation_lon, maplocation_lat,
-	  city_id, country_id, district_id, sqm_netsqm, room, livingRoom, floor_count, detaildescription, is_furnished, floor_type_id)
+	  city_id, country_id, district_id, sqm_netsqm,  floor_count, detaildescription, is_furnished, floor_type_id, room_category_id)
 	  values (src.load_id, src.source_emlak_id, src.age, src.price, src.createdate, src.updateddate
 	 ,src.maplocation_lon, src.maplocation_lat, src.city_id, src.country_id, src.district_id
-	 ,src.sqm_netsqm, src.room, src.livingRoom, src.floor_count, src.detaildescription, src.is_furnished, src.floor_type_id);
+	 ,src.sqm_netsqm, src.floor_count, src.detaildescription, src.is_furnished, src.floor_type_id, src.room_category_id);
 END
 $$;
