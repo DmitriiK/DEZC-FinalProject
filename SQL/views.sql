@@ -20,7 +20,7 @@ select  eml.id,
 	eml.age, 
 	cast(1.0*ec.dist_to_sea/1000 as decimal(6,1)) as dist_to_sea,
 	calc.sqm_price
-	,rc.room_category 
+	,eml.room_category_id, rc.room_category 
 	,case when eml.is_furnished then calc.sqm_price else 0 end sqm_price_furnished
 	,case when eml.is_furnished then 1 else 0 end cnt_furnished
 	,case when not eml.is_furnished then calc.sqm_price else 0 end sqm_price_not_furnished
