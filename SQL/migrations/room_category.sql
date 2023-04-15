@@ -26,7 +26,7 @@ select room_category_id, count(*)  from f_emlak fe group by room_category_id
 -- alter view, alter functions 
 alter table f_emlak drop column room
 alter table f_emlak drop column livingroom
-
+REINDEX TABLE f_emlak;
 
 
 

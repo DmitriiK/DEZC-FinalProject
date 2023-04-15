@@ -29,6 +29,7 @@ AS $$
 DECLARE  _floor_type_id int;
 DECLARE  _room_category_id smallint;
 DECLARE  _room smallint := room; --have to re-assign to avoid conflicts
+DECLARE  _emlak_id int; --id from main fact table
 BEGIN
 	with src as (select * from (values (city_id, city_name ,load_id)) s(city_id, city_name,load_id))
 	merge into D_Cities trg
@@ -77,22 +78,35 @@ BEGIN
 
 	 --
 	 WITH src as (select * from (values(load_id, source_emlak_id, age, price, createdate, updateddate, maplocation_lon,maplocation_lat
-	 , city_id, country_id, district_id, sqm_netsqm,  floor_count, detaildescription, is_furnished, _floor_type_id, _room_category_id
+	 , city_id, country_id, district_id, sqm_netsqm,  floor_count,  is_furnished, _floor_type_id, _room_category_id
 	 ))
 	 s(load_id, source_emlak_id, age, price, createdate, updateddate, maplocation_lon,maplocation_lat
-	 ,city_id, country_id, district_id, sqm_netsqm,  floor_count, detaildescription, is_furnished, floor_type_id, room_category_id)
+	 ,city_id, country_id, district_id, sqm_netsqm,  floor_count,  is_furnished, floor_type_id, room_category_id)
 	 )
 	 MERGE INTO f_emlak as trg
 	 using src
 		on src.source_emlak_id = trg.source_emlak_id
 	 when matched then
 	  update set load_id = src.load_id, updateddate = src.updateddate, sqm_netsqm = src.sqm_netsqm
-	  , price = src.price, detaildescription = src.detaildescription, floor_type_id=src.floor_type_id, room_category_id=src.room_category_id
+	  , price = src.price,  floor_type_id=src.floor_type_id, room_category_id=src.room_category_id
 	 when not matched then
 	  insert (load_id, source_emlak_id, age, price, createdate, updateddate, maplocation_lon, maplocation_lat,
-	  city_id, country_id, district_id, sqm_netsqm,  floor_count, detaildescription, is_furnished, floor_type_id, room_category_id)
+	  city_id, country_id, district_id, sqm_netsqm,  floor_count,  is_furnished, floor_type_id, room_category_id)
 	  values (src.load_id, src.source_emlak_id, src.age, src.price, src.createdate, src.updateddate
 	 ,src.maplocation_lon, src.maplocation_lat, src.city_id, src.country_id, src.district_id
-	 ,src.sqm_netsqm, src.floor_count, src.detaildescription, src.is_furnished, src.floor_type_id, src.room_category_id);
+	 ,src.sqm_netsqm, src.floor_count,  src.is_furnished, src.floor_type_id, src.room_category_id);
+	
+	------f_emlak_details----------
+	SELECT fe.id INTO _emlak_id FROM f_emlak fe  where fe.source_emlak_id = source_emlak_id;
+
+	with src as (select * from (values (_emlak_id, detailDescription)) s(id, detailDescription))
+	merge into f_emlak_details  trg
+	using src
+		on src.id = trg.id 
+	when matched then
+	  update set detailDescription = src.detailDescription
+	when not matched then
+	  insert (id, detailDescription) values (src.room, src.detailDescription);
+	
 END
 $$;
