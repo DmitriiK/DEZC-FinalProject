@@ -69,12 +69,19 @@ CREATE TABLE F_Emlak
     floor_count INT,
     is_furnished BOOLEAN,
     is_gaz BOOLEAN,
-    --is_most_recent_load Boolean default 1,
+    is_most_recent_load Boolean default true,
     floor_type_id INT NULL REFERENCES public.d_floor_type(floor_type_id),
     room_category_id SMALLINT  NOT NULL REFERENCES public.D_Room_Category(room_category_id) 
     UNIQUE(source_emlak_id)
 )
+--
+CREATE INDEX f_emlak_city_id_idx ON public.f_emlak (city_id,country_id,district_id,room_category_id,is_furnished)
+INCLUDE (price, age, sqm_netsqm)
+where is_most_recent_load
+;
 
+
+--
 CREATE TABLE  public.f_emlak_calc -- extension table with calculations
 (
     id  INT NOT NULL  PRIMARY KEY REFERENCES F_Emlak(id),   
