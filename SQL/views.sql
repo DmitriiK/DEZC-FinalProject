@@ -37,7 +37,9 @@ select  eml.id,
 	lateral (select eml.price/eml.sqm_netsqm as sqm_price) calc
 	where  eml.price/ eml.sqm_netsqm between 40 and 500
 	--and eml.Id=11030
-
+--
+create view v_is_furnitured as
+SELECT * FROM (VALUES (false, 'empty'), (true, 'furnitured')) AS t (is_furnitured,n_is_furnitured);
 	 
 
 	--
