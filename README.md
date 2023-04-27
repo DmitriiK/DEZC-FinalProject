@@ -54,7 +54,7 @@
 ![image](https://user-images.githubusercontent.com/20965831/229874671-cb6bca21-ef77-43cb-b83a-9af48d512043.png)
  &ensp;&thinsp;
  
-- [Dashboard with detailed information for Antalya](http://dklmn.westeurope.cloudapp.azure.com:3000/public/dashboard/57630ab3-a557-4e3b-a081-2beb2dc2da93?room_category=1%2B1&room_category=2%2B1&room_category=3%2B1&room_category=4%2B1&distance_to_see_within.._km=30&number_of_floors_in_the_building=1&number_of_floors_in_the_building=10)  
+- [Dashboard with detailed information for Antalya](http://dklmn.westeurope.cloudapp.azure.com:3000/public/dashboard/9cdadb7a-24f2-4797-9a93-a61016031b22)  
 Note: dashboards from the links above might be unavailable, as I might switch off the VM to save some money..
 ![image](https://user-images.githubusercontent.com/20965831/229874237-028dc808-3fd5-482b-8272-db36e89a8bf8.png)  
 
