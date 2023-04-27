@@ -1,9 +1,11 @@
-create or replace view v_room_category as 
-select rc.room_category_id, rc.room, rc.living_room,
-	concat(rc.room, '+', rc.living_room) as room_plus_living_room,
-	case when rc.room>3 then '>4+..' else concat(rc.room, '+', rc.living_room) end as room_category
-from  d_room_category rc
---
+CREATE OR REPLACE VIEW public.v_room_category as
+ SELECT rc.room_category_id,
+    rc.room,
+    rc.living_room,
+    concat(rc.room, '+', rc.living_room) AS room_plus_living_room,
+    concat(CASE WHEN rc.room > 3 then '(>3)':: text else rc.room:: text end , '+',
+      	CASE WHEN rc.living_room > 1 then '(>1)':: text else rc.living_room:: text end) as room_category
+   FROM d_room_category rc;
 
 
 --select * from v_emlak
