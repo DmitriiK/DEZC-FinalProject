@@ -49,7 +49,7 @@
  -  [SQL](SQL) : database schema and stored procedures for DWH
 
 ## Results
-- [Dashboard for all cities](http://dklmn.westeurope.cloudapp.azure.com:3000/public/dashboard/036832b6-da5d-4da8-b1e4-c2720926d01e?room_category=2%2B1&room_category=1%2B1&room_category=3%2B1&room_category=4%2B1&age_or_buiding_is_less_than=100)
+- [Dashboard for all cities](http://dklmn.westeurope.cloudapp.azure.com:3000/public/dashboard/46a3d980-e9be-4cb0-b67f-a79d87dc7da2)
 
 ![image](https://user-images.githubusercontent.com/20965831/229874671-cb6bca21-ef77-43cb-b83a-9af48d512043.png)
  &ensp;&thinsp;
