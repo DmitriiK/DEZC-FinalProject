@@ -91,8 +91,8 @@ CREATE TABLE  public.f_emlak_calc -- extension table with calculations
 CREATE TABLE  public.f_emlak_details -- extension table with text details
 (
     id  INT NOT NULL  PRIMARY KEY REFERENCES F_Emlak(id),   
-    detailDescription  VARCHAR(255)
+    detailDescription  VARCHAR(255),  
+    detailUrl  VARCHAR(255)    
 )
-
 
 
