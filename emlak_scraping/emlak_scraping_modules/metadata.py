@@ -3,7 +3,7 @@ class JsonSchema:
     rootNode = 'realtyList'
     hepsiemlak_source_fields = ['id', 'age', 'price', 'createDate', 'updatedDate', 'mapLocation/lon', 'mapLocation/lat',
                             'city/id', 'city/name', 'county/id', 'county/name', 'district/id', 'district/name',
-                            'sqm/netSqm',   'room/0', 'livingRoom/0', 'floor/count', 'floor/name', 'detailDescription'] # 'sqm/grossSqm/0',
+                            'sqm/netSqm',   'room/0', 'livingRoom/0', 'floor/count', 'floor/name', 'detailDescription', 'detailUrl'] # 'sqm/grossSqm/0',
 
     def flat_name(hierarchy_name):
         return hierarchy_name.replace('/', '_')

@@ -31,5 +31,5 @@ def main_task(SCRAPING_DEPTH:int = -1, REQUEST_DELAY:int =1):
    recalculate()
 
 if __name__ == '__main__':
-   main_task(-1, 1)
+   main_task(0, 1)
       
