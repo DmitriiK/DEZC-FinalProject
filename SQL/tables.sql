@@ -39,6 +39,18 @@ CREATE TABLE  public.d_floor_type
     UNIQUE(floor_type_name)
 )
 
+CREATE TABLE D_Room_Category
+(
+    room_category_id  SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    room smallint not NULL, /*number of bedrooms*/
+    living_room smallint not NULL,
+    -- room_category_name VARCHAR(20) GENERATED ALWAYS AS  concat(room, '+', livingroom), /*2+1 - 2 bedrooms and a kitchen*/
+    UNIQUE(room, living_room)
+)
+
+    
+
+
 CREATE TABLE F_Emlak
 (
     id  INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -54,20 +66,32 @@ CREATE TABLE F_Emlak
     country_id INT  NOT NULL REFERENCES public.D_Countries(country_id),
     district_id  INT  NOT NULL REFERENCES public.D_Districts(district_id),
     sqm_netSqm INT,
-    room INT,
-    LivingRoom INT,
     floor_count INT,
-    detailDescription  VARCHAR(255),
     is_furnished BOOLEAN,
     is_gaz BOOLEAN,
-    floor_type_id INT NULL REFERENCES public.d_floor_type(floor_type_id)
+    is_most_recent_load Boolean default true,
+    floor_type_id INT NULL REFERENCES public.d_floor_type(floor_type_id),
+    room_category_id SMALLINT  NOT NULL REFERENCES public.D_Room_Category(room_category_id) 
     UNIQUE(source_emlak_id)
 )
+--
+CREATE INDEX f_emlak_city_id_idx ON public.f_emlak (city_id,country_id,district_id,room_category_id,is_furnished)
+INCLUDE (price, age, sqm_netsqm)
+where is_most_recent_load
+;
 
+
+--
 CREATE TABLE  public.f_emlak_calc -- extension table with calculations
 (
     id  INT NOT NULL  PRIMARY KEY REFERENCES F_Emlak(id),   
     dist_to_sea INT NOT NULL --distance to sea border
+)
+
+CREATE TABLE  public.f_emlak_details -- extension table with text details
+(
+    id  INT NOT NULL  PRIMARY KEY REFERENCES F_Emlak(id),   
+    detailDescription  VARCHAR(255)
 )
 
 
