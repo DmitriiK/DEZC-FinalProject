@@ -1,5 +1,4 @@
-------
-CREATE OR REPLACE PROCEDURE public.pr_merge_emlak_data(IN load_id integer, IN source_emlak_id integer, IN age integer, IN price numeric, IN createdate timestamp without time zone, IN updateddate timestamp without time zone, IN maplocation_lon numeric, IN maplocation_lat numeric, IN city_id integer, IN city_name character varying, IN country_id integer, IN country_name character varying, IN district_id integer, IN district_name character varying, IN sqm_netsqm numeric, IN room integer, IN livingroom integer, IN floor_count integer, IN floor_type character varying, IN detaildescription character varying, IN is_furnished boolean)
+CREATE OR REPLACE PROCEDURE public.pr_merge_emlak_data(IN load_id integer, IN source_emlak_id integer, IN age integer, IN price numeric, IN createdate timestamp without time zone, IN updateddate timestamp without time zone, IN maplocation_lon numeric, IN maplocation_lat numeric, IN city_id integer, IN city_name character varying, IN country_id integer, IN country_name character varying, IN district_id integer, IN district_name character varying, IN sqm_netsqm numeric, IN room integer, IN livingroom integer, IN floor_count integer, IN floor_type character varying, IN detaildescription character varying, IN detailUrl character varying,  IN is_furnished boolean)
  LANGUAGE plpgsql
 AS $procedure$
 DECLARE  _floor_type_id int;
@@ -81,15 +80,13 @@ BEGIN
 	using src
 		on src.id = trg.id 
 	when matched then
-	  update set detailDescription = src.detailDescription
+	  update set detailDescription = src.detailDescription, detailUrl = src.detailUrl
 	when not matched then
-	  insert (id, detailDescription) values (src.id, src.detailDescription);
+	  insert (id, detailDescription, detailUrl) values (src.id, src.detailDescription,detailUrl);
 	
 END
 $procedure$
 ;
-
-
 
 -- call pr_calc_emlak_data()
 CREATE or REPLACE PROCEDURE pr_calc_emlak_data()
