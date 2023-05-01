@@ -24,11 +24,12 @@ def main_task(SCRAPING_DEPTH:int = -1, REQUEST_DELAY:int =1):
       secret_block = Secret.load("proxy-url")  
       PROXY_URL= secret_block.get()
    if sett.SAVE_TO_BLOB_STORAGE:
+      print('going to save raw data  to blob storage')
       secret_block = Secret.load("bscs-emlak") #  azure blob storage connection string
       AZURE_BS_CS = secret_block.get()
    refresh_primary_data(SCRAPING_DEPTH, REQUEST_DELAY, PROXY_URL,AZURE_BS_CS)
    recalculate()
 
 if __name__ == '__main__':
-   main_task(-1, 1)
+   main_task(0, 1)
       
