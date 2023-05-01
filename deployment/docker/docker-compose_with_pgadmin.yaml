@@ -10,13 +10,20 @@ services:
     ports:
       - "5432:5432"
     restart: unless-stopped
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - "8080:80"
   metabase:
     image: metabase/metabase:latest
     container_name: metabase
     restart: always
     environment:
       MB_DB_TYPE: postgres
-      MB_DB_DBNAME: metabase # metabase db should be created before
+      MB_DB_DBNAME: metabase # metabase should be created before..
       MB_DB_PORT: 5432
       MB_DB_USER: postgres
       MB_DB_PASS: 123
