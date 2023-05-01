@@ -75,14 +75,14 @@ BEGIN
 	------f_emlak_details----------
 	SELECT fe.id INTO _emlak_id FROM f_emlak fe  where fe.source_emlak_id = _source_emlak_id;
 
-	with src as (select * from (values (_emlak_id, detailDescription)) s(id, detailDescription))
+	with src as (select * from (values (_emlak_id, detailDescription, detailUrl)) s(id, detailDescription, detailUrl))
 	merge into f_emlak_details  trg
 	using src
 		on src.id = trg.id 
 	when matched then
 	  update set detailDescription = src.detailDescription, detailUrl = src.detailUrl
 	when not matched then
-	  insert (id, detailDescription, detailUrl) values (src.id, src.detailDescription,detailUrl);
+	  insert (id, detailDescription, detailUrl) values (src.id, src.detailDescription, src.detailUrl);
 	
 END
 $procedure$
