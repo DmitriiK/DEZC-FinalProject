@@ -57,5 +57,16 @@ from f_loads fl2, aggr_eml
 where fl2.is_full and fl2.status =1 order by fl2.load_id desc limit 1
 )
 select * from aggr_eml, loads
+--
+   
+
+CREATE OR REPLACE VIEW public.v_emlak_details
+AS SELECT ed.id,
+    ed.detaildescription,
+        CASE
+            WHEN ed.detailurl IS NULL THEN NULL::text
+            ELSE concat('https://www.hepsiemlak.com/en/', ed.detailurl)
+        END AS detail_url
+   FROM f_emlak_details ed;
 
 	
