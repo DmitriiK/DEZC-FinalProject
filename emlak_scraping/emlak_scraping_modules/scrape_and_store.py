@@ -23,5 +23,5 @@ def load_to_db(SCRAPING_DEPTH:int, REQUEST_DELAY:int, PROXY_URL:str = '', AZURE_
 
 
 if __name__ == '__main__':
-   load_to_db(0, 1)
+   load_to_db(-1, 1)
       
