@@ -4,7 +4,7 @@ import psycopg2
 from sqlalchemy import create_engine
 
 from metadata import JsonSchema
-from settings import SQL_DB, SQL_HOST
+from settings import SQL_DB, SQL_HOST, SQL_PORT
 from creds import SQL_PASSWORD, SQL_USER
 
 
@@ -24,7 +24,8 @@ class db_worker():
             host=SQL_HOST,
             database=SQL_DB, 
             user=SQL_USER,
-            password=SQL_PASSWORD)
+            password=SQL_PASSWORD,
+            port=SQL_PORT)
         self.curr = self.connection.cursor()
 
     def init_load_session(self):  
@@ -103,10 +104,10 @@ class db_worker():
             read_emlak_geo_sql = "SELECT  eml.id, eml.maplocation_lon, eml.maplocation_lat  " \
                              "FROM public.f_emlak eml " \
                              "WHERE id NOT IN (select ID from public.f_emlak_calc) " \
-                             "and eml.city_id = 7 /*working with Antalya only for this moment*/"
+                             "and eml.city_id IN (35) /*7,33 working with Antalya only for this moment*/"
             cursor = connection.cursor()
             cursor.execute(read_emlak_geo_sql)
-            row = cursor.fetchone()
+            row = cursor.fetchone() 
             while row is not None:
                 # print(output)
                 id,  lon, lat = (int(row[0]), float(row[1]), float(row[2]))
