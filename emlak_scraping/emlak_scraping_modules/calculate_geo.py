@@ -3,7 +3,7 @@ from shapely.geometry import Point
 
 
 from  hepsiemlak_dwh import db_worker
-from settings import MEDITERRANEAN_SEA_GEO_FILE
+from settings import MEDITERRANEAN_SEA_GEO_FILE, CITY_ID_TO_SEA_CODE
 
 
 def get_meditterranean_sea():
@@ -13,9 +13,9 @@ def get_meditterranean_sea():
     return med_sea
 
 
-def get_geo_emlak(crs):
+def get_geo_emlak(crs, city_id):
     dbw = db_worker()
-    data=dbw.get_geo_data()
+    data=dbw.get_geo_data(city_id)
     print(f'{len(data)} of new records to calculate')
     gdf_emlak = gpd.GeoDataFrame(
     data,
@@ -25,10 +25,12 @@ def get_geo_emlak(crs):
     )
     return gdf_emlak
 
-def calc_geo():
+def calc_geo(city_id, geo_code):
     gf_med_sea = get_meditterranean_sea()
-    med_sea = gf_med_sea [gf_med_sea['id'] == '28B']['geometry'] # .iloc[0]  # Mediterranean Sea - Eastern Basin
-    gdf_emlak = get_geo_emlak(med_sea.crs)
+    # '28B'
+    med_sea = gf_med_sea [gf_med_sea['id'].isin([geo_code])]['geometry'] # .iloc[0]  
+    # '28B'- Mediterranean Sea - Eastern Basin,'28h' 
+    gdf_emlak = get_geo_emlak(med_sea.crs, city_id)
     proj_crs = 32636 
     # WGS_1984_UTM_Zone_36N  https://pro.arcgis.com/en/pro-app/latest/help/mapping/properties/pdf/projected_coordinate_systems.pdf
     gdf_emlak = gdf_emlak.to_crs(proj_crs)
@@ -44,9 +46,12 @@ def save_calulations(df):
     db_worker.save_calc_data(df)
 
 
+    
+
 def calc_and_save():
-    gdf = calc_geo()
-    save_calulations(gdf)
+    for c2s in CITY_ID_TO_SEA_CODE:
+        gdf = calc_geo(city_id=c2s[0], geo_code=c2s[1])
+        save_calulations(gdf)
     
 
 if __name__ == '__main__':
