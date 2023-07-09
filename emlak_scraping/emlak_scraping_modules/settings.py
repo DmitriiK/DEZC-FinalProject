@@ -14,9 +14,10 @@ GEO_URL_PARTS = [
 
 MEDITERRANEAN_SEA_GEO_FILE = '/home/dklmn/code/DEZC-FinalProject/emlak_scraping/geo_data/iho.zip' # file path to geo shape file with sea
 # mapping of cite on the sea cost to the code of the sea from spatial data file
-CITY_ID_TO_SEA_CODE = [(35, '28h') # Izmir - Aegean Sea
-                    ,(7,'28B') # Antalya - Eastern Basin
-                    ,(33,'28h')# Mersin - Eastern Basin
+GEO_CLAUSE_TO_SEA_CODE = [('CITY_ID IN (35) /*Izmir*/ OR (CITY_ID=48/*Mugla*/ AND COUNTRY_ID IN (1517/*Marmaris*/,1197 /*Bodrum*/))', '28h') # Aegean Sea
+                          ,('CITY_ID IN (7 /*Antalya*/,33 /*Mersin*/) OR (CITY_ID=48/*Mugla*/ AND COUNTRY_ID IN (1331/*Fethiye*/, 1742	/*Dalaman*/))','28B') #  Eastern Basin
+                    
+
                     ]
-SPATIAL_INTERPOLATION_SITE_PATH ='/home/dklmn/code/DmitriiK.github.io/RealtyEstimation/' # Path to output folder for spatial interpolation calculati
+SPATIAL_INTERPOLATION_SICITY_ID=TE_PATH ='/home/dklmn/code/DmitriiK.github.io/RealtyEstimation/' # Path to output folder for spatial interpolation calculati
 SAVE_TO_BLOB_STORAGE = False # IF    true, we are saving to data lake as well

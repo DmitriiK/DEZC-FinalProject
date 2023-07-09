@@ -97,16 +97,16 @@ class db_worker():
         return raw_prices
     
 
-    def get_geo_data(self, citi_id):
+    def get_geo_data(self, geo_clause):
         ret = []
         try:
             connection = self.connection
             read_emlak_geo_sql = "SELECT  eml.id, eml.maplocation_lon, eml.maplocation_lat  " \
                              "FROM public.f_emlak eml " \
-                             "WHERE id NOT IN (select ID from public.f_emlak_calc) " \
-                             "and CITY_ID=%s"                              
+                             "WHERE eml.id NOT IN (select emlc.ID from public.f_emlak_calc emlc) " \
+                             f"AND ({geo_clause})" # sql injection, I'm not afraid of you                             
             cursor = connection.cursor()
-            cursor.execute(read_emlak_geo_sql, (citi_id,))
+            cursor.execute(read_emlak_geo_sql)
             row = cursor.fetchone() 
             while row is not None:
                 # print(output)
