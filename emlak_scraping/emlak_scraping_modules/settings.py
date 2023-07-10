@@ -1,15 +1,16 @@
 SQL_HOST = 'localhost'
 SQL_DB = 'emlak'
-SQL_PORT=5432
+SQL_PORT=5433
 
 NEED_PROXY = 1
 PROXY = 'node-tr-2.astroproxy.com:11183'
 
 GEO_URL_PARTS = [
-            'izmir-kiralik?subCategories=residence,daire',  # Izmir
-            'antalya-kiralik?subCategories=daire,residence&counties=antalya-aksu,alanya,dosemealti,antalya-kemer,kepez,konyaalti,manavgat,muratpasa',  # Antalya
-            'mersin-icel-kiralik-esyali?subCategories=daire,residence'  # Mersin
-            ,'isparta-kiralik?subCategories=daire,residence'
+            # 'izmir-kiralik?subCategories=residence,daire',  # Izmir
+             # 'antalya-kiralik?subCategories=daire,residence&counties=antalya-aksu,alanya,dosemealti,antalya-kemer,kepez,konyaalti,manavgat,muratpasa',  # Antalya
+            #  'mersin-icel-kiralik-esyali?subCategories=daire,residence'  # Mersin
+             # ,'isparta-kiralik?subCategories=daire,residence'
+            'mugla-kiralik?subCategories=daire,residence&counties=bodrum,dalaman,fethiye,marmaris'
         ]
 
 MEDITERRANEAN_SEA_GEO_FILE = '/home/dklmn/code/DEZC-FinalProject/emlak_scraping/geo_data/iho.zip' # file path to geo shape file with sea

@@ -41,7 +41,10 @@ class scrapping_session:
 
     def request_api(self, url):
         self.pages_requested +=1
-        r = self.session.get(url,  headers={'Accept': 'application/json'} ) # , verify=False
+        headers = {'Accept': 'application/json'
+                   ,'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/114.0'} 
+
+        r = self.session.get(url,  headers=headers ) # , verify=False
         json_resp, next_page_url,page = None, None, None
         if (r.status_code == 200):
             self.resp_content_size =+ len(r.content)
