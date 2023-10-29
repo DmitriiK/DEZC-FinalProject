@@ -1,7 +1,7 @@
 
 
 
-TOKEN='6177236188:AAGk-dKomEz70RUe6ZvNJP5i6SxZs7yCfeg' # dk_emlak_bot
+TOKEN='' # dk_emlak_bot
 import logging
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
