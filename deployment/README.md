@@ -3,6 +3,7 @@
 - Initial infrastructure setup.
   (You can follow the steps from 
   [DE Zoomcamp 1.4.1 - Setting up the Environment on Google Cloud (Cloud VM + SSH access)](https://www.youtube.com/watch?v=ae-CV2KfoN0&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb))
+  https://github.com/ABZ-Aaron/DataEngineerZoomCamp/blob/master/week_1_basics_n_setup/README.md
 
   - Generating SSH keys
   - Creating a virtual machine on the cloud (Azure ubuntu 20.04 Standard B2s (2 vcpus, 4 GiB memory)ry) for my case)
