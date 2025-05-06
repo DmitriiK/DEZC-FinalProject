@@ -43,8 +43,21 @@ class scrapping_session:
 
     def request_api(self, url):
         self.pages_requested += 1
-        headers = {'Accept': 'application/json',
-                   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/114.0'}
+        headers = {
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'Accept-Encoding': 'gzip, deflate, br, zstd',
+    'Accept-Language': 'en-US,en;q=0.5',
+    'Alt-Used': 'www.hepsiemlak.com',
+    'Connection': 'keep-alive',
+    'Host': 'www.hepsiemlak.com',
+    'Priority': 'u=0, i',
+    'Sec-Fetch-Dest': 'document',
+    'Sec-Fetch-Mode': 'navigate',
+    'Sec-Fetch-Site': 'none',
+    'Sec-Fetch-User': '?1',
+    'Upgrade-Insecure-Requests': '1',
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:134.0) Gecko/20100101 Firefox/134.0'
+}
 
         r = self.session.get(url,  headers=headers)  # , verify=False
         json_resp, next_page_url, page = None, None, None
