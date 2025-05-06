@@ -1,7 +1,9 @@
-import requests
+from typing import Iterable, Tuple
 import time
 from itertools import product
+from playwright.sync_api import sync_playwright
 import json
+import random
 
 from metadata import JsonSchema, GetParams
 import settings
@@ -9,7 +11,6 @@ import creds
 # from datalake_store import AzureBlobFileUploader
 
 baseURL = 'https://www.hepsiemlak.com/api/realty-list'
-
 
 class scrapping_session:
     """
@@ -28,27 +29,40 @@ class scrapping_session:
         self.resp_content_size = 0  # responce content size
         self.pages_requested = 0
         self.items_parsed = 0
-        self.session = requests.Session()
-        if (settings.NEED_PROXY):
+        if (settings.NEED_PROXY): # to do - figure out how to use proxy with playwright
             proxy_url = PROXY_URL if PROXY_URL else creds.PROXY_URL
-            self.session.proxies = {
-                'http': proxy_url,
-                'https': proxy_url,
-            }
+            # self.session.proxies = {'http': proxy_url,    'https': proxy_url,   }
 
-    def request_api(self, url):
-        self.pages_requested += 1
+    def fetch_json(self, url: str, browser_page) -> Tuple[int, dict | None, str | None, int | None]:
+        """
+        Fetches JSON data from a GET API request using Playwright 
 
-        r = self.session.get(url)  # , verify=False
-        json_resp, next_page_url, page = None, None, None
-        if (r.status_code == 200):
-            self.resp_content_size = + len(r.content)
-            json_resp = r.json()
-            totalPages, page = json_resp['totalPages'], json_resp['page']
-            if page < totalPages and (page <= self.SCRAPING_DEPTH or self.SCRAPING_DEPTH < 0):
-                # yes, I don't like it as well
-                next_page_url = url.replace(f'&page={page}', f'&page={page+1}')
-        return r.status_code, json_resp, next_page_url, page
+        Args:
+            url: The URL of the API endpoint.
+
+        Returns:
+            A dictionary representing the JSON response, or None if an error occurs.
+        """
+        try:
+            response = browser_page.goto(url)
+            if response: 
+                if response.ok:
+                    content = response.text()
+                    self.resp_content_size = + len(content)
+                    self.pages_requested += 1
+                    json_resp = json.loads(content)
+
+                    totalPages, page = json_resp['totalPages'], json_resp['page']
+                    if page < totalPages and (page <= self.SCRAPING_DEPTH or self.SCRAPING_DEPTH < 0):
+                        # yes, I don't like it as well
+                        next_page_url = url.replace(f'&page={page}', f'&page={page+1}')
+                    return response.status, json_resp, next_page_url, page
+                else:
+                    print(f"Error fetching data from {url}: {response.status}")
+                    return response.status, None, None, None       
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+        return None
 
     def parse_json(self, json_resp, url):
         lst = json_resp[JsonSchema.rootNode]
@@ -67,30 +81,35 @@ class scrapping_session:
             self.items_parsed += 1
             yield d_ret
 
-    def scrape(self):
-        for start_url in self.start_urls:
-            url = start_url
-            number_of_attempts = 0
-            while (url):
-                print(f'url: {url}')
-                number_of_attempts += 1
-                status, json_data, next_url, page = self.request_api(url)
-                if status == 200:
-                    self.save_to_blob(json_data, url, page)
-                    for itm in self.parse_json(json_data, url):
-                        yield itm
-                else:
-                    print(
-                        f"Oops, something goes wrong,- for url: {url} we are getting status_code ={status}")
-                    if (number_of_attempts < 10):
-                        time.sleep(5)
-                        continue
+
+
+    def scrape(self, min_delay: int = 1, max_delay: int = 2) -> Iterable[dict]:
+        with sync_playwright() as p:
+            browser = p.firefox.launch()
+            browser_page = browser.new_page()
+            is_first_request = True
+            for start_url in self.start_urls:
+                url = start_url
+                # number_of_attempts = 0
+                while (url):
+                    print(f'url: {url}')
+                    if not is_first_request and min_delay:
+                        # Introduce a random delay before making the request
+                        delay = random.uniform(min_delay, max_delay)
+                        print(f"Waiting for {delay:.2f} seconds before fetching {url}...")
+                        time.sleep(delay)
+                    is_first_request = False  
+                    status, json_data, next_url, _  = self.fetch_json(url, browser_page)
+                    if json_data :
+                        for itm in self.parse_json(json_data, url):
+                            yield itm
+                        url = next_url
                     else:
-                        return  # todo: this will probably breake client.. need to do something more elegant
+                        # what should we yield here?
+                        print(  f"Oops, something goes wrong,- for url: {url} we are getting status_code ={status}")
+                    # number_of_attempts += 1
 
-                time.sleep(self.REQUEST_DELAY)
-                url = next_url
-
+                    
 
 if __name__ == '__main__':
     scrappy = scrapping_session()
