@@ -6,7 +6,7 @@ import json
 from metadata import JsonSchema, GetParams
 import settings
 import creds
-from datalake_store import AzureBlobFileUploader
+# from datalake_store import AzureBlobFileUploader
 
 baseURL = 'https://www.hepsiemlak.com/api/realty-list'
 
@@ -25,11 +25,6 @@ class scrapping_session:
             geoURLparts, [GetParams.IsFurnished, GetParams.NotIsFurnished])]
         # https://www.hepsiemlak.com/antalya-kiralik-esyali?counties=kepez,konyaalti,muratpasa&furnishStatus=FURNISHED
         # https://www.hepsiemlak.com/api/realty-list/izmir-kiralik?furnishStatus=FURNISHED&page=1
-
-        if settings.SAVE_TO_BLOB_STORAGE:
-            bs_cs = AZURE_BS_CS or creds.BLOB_STORAGE_CONNECTION_STRING
-            self.blob_sink = AzureBlobFileUploader(bs_cs)
-
         self.resp_content_size = 0  # responce content size
         self.pages_requested = 0
         self.items_parsed = 0
@@ -43,23 +38,8 @@ class scrapping_session:
 
     def request_api(self, url):
         self.pages_requested += 1
-        headers = {
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'Accept-Encoding': 'gzip, deflate, br, zstd',
-    'Accept-Language': 'en-US,en;q=0.5',
-    'Alt-Used': 'www.hepsiemlak.com',
-    'Connection': 'keep-alive',
-    'Host': 'www.hepsiemlak.com',
-    'Priority': 'u=0, i',
-    'Sec-Fetch-Dest': 'document',
-    'Sec-Fetch-Mode': 'navigate',
-    'Sec-Fetch-Site': 'none',
-    'Sec-Fetch-User': '?1',
-    'Upgrade-Insecure-Requests': '1',
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:134.0) Gecko/20100101 Firefox/134.0'
-}
 
-        r = self.session.get(url,  headers=headers)  # , verify=False
+        r = self.session.get(url)  # , verify=False
         json_resp, next_page_url, page = None, None, None
         if (r.status_code == 200):
             self.resp_content_size = + len(r.content)
@@ -110,19 +90,6 @@ class scrapping_session:
 
                 time.sleep(self.REQUEST_DELAY)
                 url = next_url
-
-    def save_to_blob(self, json_data: str, url: str, page: int):
-        if not settings.SAVE_TO_BLOB_STORAGE:
-            return
-        if not self.blob_sink:
-            self.blob_sink = AzureBlobFileUploader()
-        bs_init_data = self.blob_sink.init_data
-        # something wrong with this implementation..
-        geo_part = [x for x in settings.GEO_URL_PARTS if x in url][0]
-        blob_file_path = f'{bs_init_data.year}/{bs_init_data.month}/{bs_init_data.day}/{geo_part}/{page}.json'
-        json_str = json.dumps(json_data, indent=4, ensure_ascii=False)
-        self.blob_sink.upload_content(
-            blob_file_path=blob_file_path, content=json_str)
 
 
 if __name__ == '__main__':
