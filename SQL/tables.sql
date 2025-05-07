@@ -71,7 +71,7 @@ CREATE TABLE F_Emlak
     is_gaz BOOLEAN,
     is_most_recent_load Boolean default true,
     floor_type_id INT NULL REFERENCES public.d_floor_type(floor_type_id),
-    room_category_id SMALLINT  NOT NULL REFERENCES public.D_Room_Category(room_category_id) 
+    room_category_id SMALLINT  NOT NULL REFERENCES public.D_Room_Category(room_category_id),
     UNIQUE(source_emlak_id)
 )
 --
