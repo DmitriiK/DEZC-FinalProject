@@ -18,9 +18,10 @@ class scrapping_session:
     REQUEST_DELAY  seconds delay between requests
     """
 
-    def __init__(self, SCRAPING_DEPTH: int = 999, REQUEST_DELAY: int = 1,  PROXY_URL: str = '',  AZURE_BS_CS: str = ''):
+    def __init__(self, SCRAPING_DEPTH: int = 999, MIN_REQUEST_DELAY: int = 1,  PROXY_URL: str = ''):
         self.SCRAPING_DEPTH = SCRAPING_DEPTH
-        self.REQUEST_DELAY = REQUEST_DELAY
+        self.MIN_REQUEST_DELAY = MIN_REQUEST_DELAY
+        self.last_request_time = None
         geoURLparts = settings.GEO_URL_PARTS
         self.start_urls = [f'{baseURL}/{x}&{y}&page=1' for x, y in product(
             geoURLparts, [GetParams.IsFurnished, GetParams.NotIsFurnished])]
@@ -44,6 +45,7 @@ class scrapping_session:
             A dictionary representing the JSON response, or None if an error occurs.
         """
         try:
+            self.last_request_time = time.time()
             response = browser_page.goto(url)
             if response: 
                 if response.ok:
@@ -51,7 +53,7 @@ class scrapping_session:
                     self.resp_content_size = + len(content)
                     self.pages_requested += 1
                     json_resp = json.loads(content)
-
+                    next_page_url = None
                     totalPages, page = json_resp['totalPages'], json_resp['page']
                     if page < totalPages and (page <= self.SCRAPING_DEPTH or self.SCRAPING_DEPTH < 0):
                         # yes, I don't like it as well
@@ -81,24 +83,31 @@ class scrapping_session:
             self.items_parsed += 1
             yield d_ret
 
+    def make_random_delay(self) -> None:
+        """# Introduce a random delay before making the request
+        Args:
+            min_delay (int, optional): _description_. Defaults to 1.
+            max_delay (int, optional): _description_. Defaults to 2.
+        """
+        if self.last_request_time and self.MIN_REQUEST_DELAY:
+            min_delay, max_delay = self.MIN_REQUEST_DELAY, self.MIN_REQUEST_DELAY + 2     
+            delay = random.uniform(min_delay, max_delay)
+            td = time.time() - self.last_request_time
+            if td < delay:
+                delay = delay - td
+                print(f"Waiting for {delay:.2f} seconds before fetching ..")
+                time.sleep(delay)
 
-
-    def scrape(self, min_delay: int = 1, max_delay: int = 2) -> Iterable[dict]:
+    def scrape(self) -> Iterable[dict]:
         with sync_playwright() as p:
             browser = p.firefox.launch()
             browser_page = browser.new_page()
-            is_first_request = True
             for start_url in self.start_urls:
                 url = start_url
                 # number_of_attempts = 0
                 while (url):
                     print(f'url: {url}')
-                    if not is_first_request and min_delay:
-                        # Introduce a random delay before making the request
-                        delay = random.uniform(min_delay, max_delay)
-                        print(f"Waiting for {delay:.2f} seconds before fetching {url}...")
-                        time.sleep(delay)
-                    is_first_request = False  
+                    self.make_random_delay()
                     status, json_data, next_url, _  = self.fetch_json(url, browser_page)
                     if json_data :
                         for itm in self.parse_json(json_data, url):
